@@ -19,17 +19,24 @@
 #include "common/CShaderPool.h"
 #include "common/CPlayer.h"
 #include "common/CShield.h"
+#include "common/CBullet.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
 #define SCREEN_HEIGHT 800
 
+#define SHIELD_NUM 3
+
 Arcball g_arcball; // arcball 設定（不必更動）
 
 /* ---------- 遊戲的狀態控制 ---------- */
 bool g_bRotating = false; // 控制是否旋轉
-bool g_bMoving = false;  // 控制是否跟著滑鼠移動
-bool g_bRunning = false; // 判斷遊戲為開始 or 暫停
+//bool g_bMoving = false;
+bool g_bRunning = false; // 判斷遊戲為開始 or 暫停（與原本的 g_bMoving 差不多）
+bool g_bShooting = false; // 玩家是否按下按鍵發射子彈
+bool g_bShot = false; // 記錄子彈被發射的瞬間
+float sAngle = 0.0f; // 計算護盾的旋轉角度（每幀更新）
+float bulletY = 0.0f; // 子彈的 Y 軸位移量
 
 GLuint g_shaderProg; // Shader Program ID
 
@@ -40,7 +47,19 @@ GLfloat g_viewScale = 4.0f;
 
 /* ---------- 圖形物件宣告 ---------- */
 CPlayer g_player;
-CShield g_shield(0.25f); // 順便設定半徑
+CShield g_shield[3];
+CBullet g_bullet;
+
+glm::mat4 g_mxPSDist[SHIELD_NUM]; // 玩家到護盾間的位移矩陣
+glm::vec3  g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
+    glm::vec3(1.0f, 0.0f, 0.0f), 
+    glm::vec3(-0.5f, 0.8f, 0.0f),
+    glm::vec3(-0.5f, -0.8f, 0.0f) 
+};
+glm::mat4 mxSRot; // 護盾的旋轉矩陣
+glm::vec3 g_PMove; // 玩家的位移向量
+glm::mat4 g_mxPMove; // 玩家的位移矩陣
+glm::mat4 mxBMove; // 子彈的位移矩陣
 
 //----------------------------------------------------------------------------
 void loadScene(void)
@@ -51,12 +70,20 @@ void loadScene(void)
     /* ---------- 設定圖形物件資料 ---------- */
     g_player.setupVertexAttributes();
     g_player.setShaderID(g_shaderProg);
-    g_player.setPos(glm::vec3(0.0f, 0.0f, 0.0f));
     
-    g_shield.setupVertexAttributes();
-    g_shield.setShaderID(g_shaderProg);
-    g_shield.setPos(glm::vec3(0.0f, 0.0f, 0.0f)); // 等同於圓心
-    g_shield.setColor(glm::vec3(0.0f, 0.4f, 0.5f));
+    for (int i = 0; i < 3; i++) {
+        g_shield[i].setupVertexAttributes();
+        g_shield[i].setShaderID(g_shaderProg);
+        g_shield[i].setColor(glm::vec3(0.0f, 0.4f, 0.5f));
+        // 設定護盾一開始相對於玩家的位置
+        g_shield[i].setPos(g_PSDist[i]);
+        g_mxPSDist[i] = glm::translate(glm::mat4(1.0f), g_PSDist[i]);
+        g_shield[i].setTransformMatrix(g_mxPSDist[i]);
+    }
+
+    g_bullet.setupVertexAttributes();
+    g_bullet.setShaderID(g_shaderProg);
+    g_bullet.setScale(glm::vec3(0.9f, 0.9f, 0.9f));
 
     /* -------------------------------------- */
 
@@ -73,21 +100,36 @@ void loadScene(void)
 void render( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );			// clear the window
+    g_bullet.draw();
     g_player.draw();
-    g_shield.draw();
+    for(int i = 0; i < 3; i++) g_shield[i].draw();
 }
 //----------------------------------------------------------------------------
 
 float g_angle = 0.0f;
 void update(float dt)
 {
-  //  if (g_bRotating)
-  //  {
-  //      g_angle += 180.0f * dt;
-  //      if (g_angle > 360.0f) g_angle -= 360.0f;
-  //      g_tri.setRotZ(g_angle); // 逆時針
-		//g_quad.setRotZ(-g_angle);// 順時針
-  //  }
+    if (g_bRunning)
+    {
+        sAngle += 3.0f * dt;
+        if (sAngle > 360.0f) sAngle -= 360.0f;
+        // 讓護盾跟著玩家的戰鬥機（滑鼠）位移並旋轉
+        mxSRot = glm::rotate(glm::mat4(1.0f), sAngle, glm::vec3(0.0f, 0.0f, 1.0f));
+        for (int i = 0; i < 3; i++) g_shield[i].setTransformMatrix(g_mxPMove * mxSRot);
+        
+        float maxY = 10.0f; // 將子彈射到螢幕外面
+        if (g_bShooting) {
+            static const float x = g_PMove.x;
+            static const float z = g_PMove.z;
+            bulletY += 5.0f * dt; // 位移速度
+            if (g_bullet.getPos().y > maxY) g_bShooting = false;
+            mxBMove = glm::translate(glm::mat4(1.0f), glm::vec3(x, bulletY, z));
+            g_bullet.setTransformMatrix(mxBMove);
+        }
+        else { // 發射前跟著戰鬥機（滑鼠）移動
+            g_bullet.setTransformMatrix(g_mxPMove);
+        }
+    }
 }
 
 void releaseAll()

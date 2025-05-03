@@ -33,13 +33,16 @@
     <ClCompile Include="common\wmhandler.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="Example5.cpp">
+    <ClCompile Include="ShootingGame.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="common\CPlayer.cpp">
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="common\CShield.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\CBullet.cpp">
       <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,6 +69,9 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CShield.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CBullet.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

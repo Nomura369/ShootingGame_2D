@@ -19,7 +19,7 @@ CShield::CShield(float rds) : CShape()
     x.push_back(_pos.x);
     y.push_back(_pos.y);
     // ²£¥Í¶ê©P®y¼Ð
-    std::cout << "CShield's radius: " << _radius << std::endl;
+    /*std::cout << "CShield's radius: " << _radius << std::endl;*/
     for (int i = 1; i <= _segment + 1; ++i) {
         float angle = 2.0f * M_PI * i / _segment;
         x.push_back(0.0f + cos(angle) * _radius);

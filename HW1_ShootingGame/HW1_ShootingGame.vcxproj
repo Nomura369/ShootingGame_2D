@@ -143,16 +143,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\arcball.cpp" />
+    <ClCompile Include="common\CBullet.cpp" />
     <ClCompile Include="common\CPlayer.cpp" />
     <ClCompile Include="common\CShaderPool.cpp" />
     <ClCompile Include="common\CShape.cpp" />
     <ClCompile Include="common\CShield.cpp" />
     <ClCompile Include="common\initShader.cpp" />
     <ClCompile Include="common\wmhandler.cpp" />
-    <ClCompile Include="Example5.cpp" />
+    <ClCompile Include="ShootingGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h" />
+    <ClInclude Include="common\CBullet.h" />
     <ClInclude Include="common\CPlayer.h" />
     <ClInclude Include="common\CShaderPool.h" />
     <ClInclude Include="common\CShape.h" />

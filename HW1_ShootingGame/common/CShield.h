@@ -5,7 +5,7 @@
 class CShield : public CShape
 {
 public:
-	CShield(float rds = 1.0f);
+	CShield(float rds = 0.25f);
 	virtual ~CShield();
 	virtual void draw() override;
 	virtual void reset() override;
