@@ -17,7 +17,6 @@ extern bool g_bRotating;
 //extern bool g_bMoving;
 extern bool g_bRunning;
 extern bool g_bShooting;
-extern bool g_bShot;
 
 extern CPlayer g_player;
 extern CShield g_shield[3];
@@ -36,7 +35,6 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
         if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) 
         {
             g_bShooting = true; // 按下左鍵發射子彈
-            g_bShot = true; // 觸發子彈發射的瞬間
         }  
     }
     

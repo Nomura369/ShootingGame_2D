@@ -20,6 +20,7 @@
 #include "common/CPlayer.h"
 #include "common/CShield.h"
 #include "common/CBullet.h"
+#include "common/CBulletManager.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -34,9 +35,7 @@ bool g_bRotating = false; // 控制是否旋轉
 //bool g_bMoving = false;
 bool g_bRunning = false; // 判斷遊戲為開始 or 暫停（與原本的 g_bMoving 差不多）
 bool g_bShooting = false; // 玩家是否按下按鍵發射子彈
-bool g_bShot = false; // 記錄子彈被發射的瞬間
 float sAngle = 0.0f; // 計算護盾的旋轉角度（每幀更新）
-float bulletY = 0.0f; // 子彈的 Y 軸位移量
 
 GLuint g_shaderProg; // Shader Program ID
 
@@ -48,7 +47,9 @@ GLfloat g_viewScale = 4.0f;
 /* ---------- 圖形物件宣告 ---------- */
 CPlayer g_player;
 CShield g_shield[3];
-CBullet g_bullet;
+//CBullet g_bulletList;
+CBulletManager* CBulletManager::instance = nullptr;
+CBulletManager* g_BMInstance = CBulletManager::getInstance(); // Singleton Pattern
 
 glm::mat4 g_mxPSDist[SHIELD_NUM]; // 玩家到護盾間的位移矩陣
 glm::vec3  g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
@@ -59,7 +60,6 @@ glm::vec3  g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
 glm::mat4 mxSRot; // 護盾的旋轉矩陣
 glm::vec3 g_PMove; // 玩家的位移向量
 glm::mat4 g_mxPMove; // 玩家的位移矩陣
-glm::mat4 mxBMove; // 子彈的位移矩陣
 
 //----------------------------------------------------------------------------
 void loadScene(void)
@@ -80,11 +80,6 @@ void loadScene(void)
         g_mxPSDist[i] = glm::translate(glm::mat4(1.0f), g_PSDist[i]);
         g_shield[i].setTransformMatrix(g_mxPSDist[i]);
     }
-
-    g_bullet.setupVertexAttributes();
-    g_bullet.setShaderID(g_shaderProg);
-    g_bullet.setScale(glm::vec3(0.9f, 0.9f, 0.9f));
-
     /* -------------------------------------- */
 
     GLint viewLoc = glGetUniformLocation(g_shaderProg, "mxView"); 	// 取得 MVP 變數的位置
@@ -100,13 +95,12 @@ void loadScene(void)
 void render( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );			// clear the window
-    g_bullet.draw();
+    g_BMInstance->draw();
     g_player.draw();
     for(int i = 0; i < 3; i++) g_shield[i].draw();
 }
 //----------------------------------------------------------------------------
 
-float g_angle = 0.0f;
 void update(float dt)
 {
     if (g_bRunning)
@@ -117,18 +111,11 @@ void update(float dt)
         mxSRot = glm::rotate(glm::mat4(1.0f), sAngle, glm::vec3(0.0f, 0.0f, 1.0f));
         for (int i = 0; i < 3; i++) g_shield[i].setTransformMatrix(g_mxPMove * mxSRot);
         
-        float maxY = 10.0f; // 將子彈射到螢幕外面
         if (g_bShooting) {
-            static const float x = g_PMove.x;
-            static const float z = g_PMove.z;
-            bulletY += 5.0f * dt; // 位移速度
-            if (g_bullet.getPos().y > maxY) g_bShooting = false;
-            mxBMove = glm::translate(glm::mat4(1.0f), glm::vec3(x, bulletY, z));
-            g_bullet.setTransformMatrix(mxBMove);
+            g_BMInstance->instantiate(g_shaderProg, g_PMove); // 按下左鍵生成（發射）子彈
+            g_bShooting = false;
         }
-        else { // 發射前跟著戰鬥機（滑鼠）移動
-            g_bullet.setTransformMatrix(g_mxPMove);
-        }
+        g_BMInstance->update(dt);
     }
 }
 
@@ -149,7 +136,7 @@ int main() {
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //只啟用 OpenGL 3.3 Core Profile（不包含舊版 OpenGL 功能）
-    //glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); // 禁止視窗大小改變
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); // 禁止視窗大小改變
 
     // 建立 OpenGL 視窗與該視窗執行時所需的的狀態、資源和環境(context 上下文)
     GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Shoot! ", nullptr, nullptr);

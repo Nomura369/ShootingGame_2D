@@ -45,6 +45,9 @@
     <ClCompile Include="common\CBullet.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\CBulletManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h">
@@ -72,6 +75,9 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CBullet.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CBulletManager.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

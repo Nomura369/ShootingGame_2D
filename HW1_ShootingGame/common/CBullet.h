@@ -11,4 +11,5 @@ public:
 	virtual void draw() override;
 	virtual void reset() override;
 	virtual void update(float dt) override;
+	bool fly(float dt); // 控制子彈的移動，並回傳子彈是否還在視窗內
 };
