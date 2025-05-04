@@ -5,8 +5,13 @@
 
 #include "CStar.h"
 
+#define GRID_H_DOT 9
+#define GRID_V_DOT 7
+
 CStar::CStar() : CShape()
 {
+    randomX = 0.0f;
+
     _vtxCount = 8;           // 頂點數量
     _vtxAttrCount = 11;      // 每個頂點的屬性數量：位置(3), 顏色(3), 法向量(3), 貼圖座標(2)
     _idxCount = 12;          // 繪製需要的索引數
@@ -41,17 +46,20 @@ CStar::~CStar() {
 }
 
 void CStar::setRandomPos() {
-    // x 座標和 y 座標的範圍皆為 -3.0f 到 3.0f
-    float randomX = -3.0f + (float)rand() / RAND_MAX * 6.0f;
-    float randomY = -3.0f + (float)rand() / RAND_MAX * 6.0f;
-    _pos = glm::vec3(randomX, randomY, 0.0f);
+    // 隨機指定星星座標
+    float x = -3.0f + (float)rand() / RAND_MAX * 6.0f;
+    float y = -4.0f + (float)rand() / RAND_MAX * 8.0f;
+    _pos = glm::vec3(x, y, 0.0f);
     _bPos = true;
     _mxPos = glm::translate(glm::mat4(1.0f), _pos);
+
+    // 設定星星下降時回到上方的 X 座標（與 update 函式連結）
+    randomX = -3.0f + (float)rand() / RAND_MAX * 6.0f;
 }
 
 void CStar::setRandomScale() {
-    // 縮放 0.4f - 1.0f 倍
-    float randomScale = 0.4f + (float)rand() / RAND_MAX * 0.6f;
+    // 縮放 0.1f - 0.5f 倍 
+    float randomScale = 0.1f + (float)rand() / RAND_MAX * 0.4f;
     _scale = glm::vec3(randomScale, randomScale, 1.0f);
     _bScale = true;
     _mxScale = glm::scale(glm::mat4(1.0f), _scale);
@@ -66,10 +74,18 @@ void CStar::draw() {
 
 
 void CStar::reset() {
-
+    CShape::reset();
+    // 如有需要，可加入其他特定於四邊形的重設動作
 }
 
 void CStar::update(float dt) {
-    CShape::reset();
-    // 如有需要，可加入其他特定於四邊形的重設動作
+    glm::mat4 mxMove; // 星星的位移矩陣
+    float minY = -8.5f; // 將星星移動到螢幕外面
+
+    _pos.y -= 1.0f * dt; // 位移速度（預計比子彈慢）
+    if (_pos.y < minY) {
+        _pos.y = -minY;
+        mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(randomX, _pos.y, 0.0f));
+    } else mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
+    setTransformMatrix(mxMove);
 }

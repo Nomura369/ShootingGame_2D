@@ -24,13 +24,14 @@
 #include "common/CBulletManager.h"
 #include "common/CGradient.h"
 #include "common/CStar.h"
+#include "common/CGridCoord.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
 #define SCREEN_HEIGHT 800
 
 #define SHIELD_NUM 3
-#define STAR_NUM 10
+#define STAR_NUM 30
 
 Arcball g_arcball; // arcball 設定（不必更動）
 
@@ -52,9 +53,14 @@ GLfloat g_viewScaleForY = 4.0f;
 /* ---------- 圖形物件宣告 ---------- */
 CPlayer g_player;
 CShield g_shield[SHIELD_NUM];
-//CBullet g_bulletList;
+
+// Singleton Pattern
 CBulletManager* CBulletManager::instance = nullptr;
-CBulletManager* g_BMInstance = CBulletManager::getInstance(); // Singleton Pattern
+CBulletManager* g_BMInstance = CBulletManager::getInstance(); 
+//CGridCoord* CGridCoord::instance = nullptr;
+//CGridCoord* g_CGInstance = CGridCoord::getInstance();
+//glm::vec3* g_gridDots = g_CGInstance->getGridDots(); // 全域共用的格線座標陣列
+
 CGradient gradient;
 CStar star[STAR_NUM];
 
@@ -127,13 +133,16 @@ void update(float dt)
         if (sAngle > 360.0f) sAngle -= 360.0f;
         // 讓護盾跟著玩家的戰鬥機（滑鼠）位移並旋轉
         mxSRot = glm::rotate(glm::mat4(1.0f), sAngle, glm::vec3(0.0f, 0.0f, 1.0f));
-        for (int i = 0; i < 3; i++) g_shield[i].setTransformMatrix(g_mxPMove * mxSRot);
+        for (int i = 0; i < SHIELD_NUM; i++) g_shield[i].setTransformMatrix(g_mxPMove * mxSRot);
         
         if (g_bShooting) {
             g_BMInstance->instantiate(g_shaderProg, g_PMove); // 按下左鍵生成（發射）子彈
             g_bShooting = false;
         }
         g_BMInstance->update(dt);
+
+        // 設定星星的移動
+        for (int i = 0; i < STAR_NUM; i++) star[i].update(dt);
     }
 }
 

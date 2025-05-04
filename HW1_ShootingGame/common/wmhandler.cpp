@@ -2,11 +2,6 @@
 
 #include "wmhandler.h"
 #include "arcball.h"
-#include "CQuad.h"
-#include "Quad.h"
-#include "CTriangle.h"
-#include "Triangle.h"
-#include "CPenta.h"
 #include "CPlayer.h"
 #include "CShield.h"
 

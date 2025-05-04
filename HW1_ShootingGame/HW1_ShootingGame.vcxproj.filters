@@ -54,6 +54,9 @@
     <ClCompile Include="common\CStar.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\CGridCoord.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h">
@@ -90,6 +93,9 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CStar.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CGridCoord.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
