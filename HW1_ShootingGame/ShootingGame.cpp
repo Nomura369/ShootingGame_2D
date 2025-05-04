@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 #include <glew/include/GL/glew.h>
 #include <glfw/include/GLFW/glfw3.h>
@@ -21,12 +22,15 @@
 #include "common/CShield.h"
 #include "common/CBullet.h"
 #include "common/CBulletManager.h"
+#include "common/CGradient.h"
+#include "common/CStar.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
 #define SCREEN_HEIGHT 800
 
 #define SHIELD_NUM 3
+#define STAR_NUM 10
 
 Arcball g_arcball; // arcball 設定（不必更動）
 
@@ -42,17 +46,20 @@ GLuint g_shaderProg; // Shader Program ID
 // 投影矩陣
 glm::mat4 g_viewMx = glm::mat4(1.0f);
 glm::mat4 g_projMx = glm::mat4(1.0f);
-GLfloat g_viewScale = 4.0f;
+GLfloat g_viewScale = 3.0f;
+GLfloat g_viewScaleForY = 4.0f;
 
 /* ---------- 圖形物件宣告 ---------- */
 CPlayer g_player;
-CShield g_shield[3];
+CShield g_shield[SHIELD_NUM];
 //CBullet g_bulletList;
 CBulletManager* CBulletManager::instance = nullptr;
 CBulletManager* g_BMInstance = CBulletManager::getInstance(); // Singleton Pattern
+CGradient gradient;
+CStar star[STAR_NUM];
 
 glm::mat4 g_mxPSDist[SHIELD_NUM]; // 玩家到護盾間的位移矩陣
-glm::vec3  g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
+glm::vec3 g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
     glm::vec3(1.0f, 0.0f, 0.0f), 
     glm::vec3(-0.5f, 0.8f, 0.0f),
     glm::vec3(-0.5f, -0.8f, 0.0f) 
@@ -70,8 +77,7 @@ void loadScene(void)
     /* ---------- 設定圖形物件資料 ---------- */
     g_player.setupVertexAttributes();
     g_player.setShaderID(g_shaderProg);
-    
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < SHIELD_NUM; i++) {
         g_shield[i].setupVertexAttributes();
         g_shield[i].setShaderID(g_shaderProg);
         g_shield[i].setColor(glm::vec3(0.0f, 0.4f, 0.5f));
@@ -80,6 +86,16 @@ void loadScene(void)
         g_mxPSDist[i] = glm::translate(glm::mat4(1.0f), g_PSDist[i]);
         g_shield[i].setTransformMatrix(g_mxPSDist[i]);
     }
+    gradient.setupVertexAttributes();
+    gradient.setShaderID(g_shaderProg);
+    gradient.setPos(glm::vec3(0.0f, -3.0f, 0.0f)); // 置於場景下半部
+    for (int i = 0; i < STAR_NUM; i++) {
+        star[i].setupVertexAttributes();
+        star[i].setShaderID(g_shaderProg);
+        star[i].setRandomPos();
+        star[i].setRandomScale();
+    }
+
     /* -------------------------------------- */
 
     GLint viewLoc = glGetUniformLocation(g_shaderProg, "mxView"); 	// 取得 MVP 變數的位置
@@ -88,16 +104,18 @@ void loadScene(void)
     g_projMx = glm::ortho(-3.0f, 3.0f, -4.0f, 4.0f, -2.0f, 2.0f);
     GLint projLoc = glGetUniformLocation(g_shaderProg, "mxProj"); 	// 取得 MVP 變數的位置
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(g_projMx));
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // 設定清除 back buffer 背景的顏色
+    glClearColor(0.2f, 0.1f, 0.4f, 1.0f); // 設定清除 back buffer 背景的顏色
 }
 //----------------------------------------------------------------------------
 
 void render( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );			// clear the window
+    gradient.draw();
+    for (int i = 0; i < STAR_NUM; i++) star[i].draw();
     g_BMInstance->draw();
     g_player.draw();
-    for(int i = 0; i < 3; i++) g_shield[i].draw();
+    for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
 }
 //----------------------------------------------------------------------------
 
@@ -126,6 +144,8 @@ void releaseAll()
 }
 
 int main() {
+    srand((unsigned)time(NULL)); // 設定亂數種子（會在物件中使用到）
+
     // ------- 檢查與建立視窗  ---------------  
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -164,7 +184,7 @@ int main() {
     glfwSetMouseButtonCallback(window, mouseButtonCallback);        // 有滑鼠的按鍵被按下時
     glfwSetCursorPosCallback(window, cursorPosCallback);            // 滑鼠在指定的視窗上面移動時
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
 
     // 呼叫 loadScene() 建立與載入 GPU 進行描繪的幾何資料 
     loadScene();

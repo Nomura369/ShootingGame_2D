@@ -20,7 +20,7 @@ public:
 		}
 		return instance;
 	}
-	void instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成子彈
+	void instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成並設定子彈
 	void draw(); // 一次畫出鏈結串列中現有的全部子彈
 	void update(float dt); // 一次更新全部子彈的移動狀態
 	~CBulletManager(); // 釋放鏈結串列

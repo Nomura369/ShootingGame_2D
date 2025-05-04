@@ -1,7 +1,9 @@
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 
 #include <glew/include/GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "CBulletManager.h"
 
 CBulletManager::CBulletManager() {
@@ -26,8 +28,22 @@ void CBulletManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // ¤
 	CBullet* currentBullet = pTail->bullet;
 	currentBullet->setupVertexAttributes();
 	currentBullet->setShaderID(shaderProg);
-	currentBullet->setPos(playerMove); // ¥Í¦¨¦b·Æ¹«·í¤UÂIÀ»ªº¦ì¸m
 	currentBullet->setScale(glm::vec3(0.9f, 0.9f, 0.9f));
+	// ªì©l¦ì¸m§Y¬°·Æ¹«¦ì¸m¡]½Õ¾ã Y ¶b°¾²¾¡^
+	float offsetY = 0.0f;
+	if (playerMove.y > 0.0f) {
+		if (playerMove.y > 3.0f) offsetY = -1.4f;
+		else if (playerMove.y > 2.0f) offsetY = -1.2f;
+		else if (playerMove.y > 1.0f) offsetY = -0.6f;
+		else offsetY = -0.2f;
+	}
+	else if (playerMove.y < 0.0f) {
+		if (playerMove.y < -3.0f) offsetY = 1.7f;
+		else if (playerMove.y < -2.0f) offsetY = 1.5f;
+		else if (playerMove.y < -1.0f) offsetY = 0.9f;
+		else offsetY = 0.5f;
+	}
+	currentBullet->setPos(glm::vec3(playerMove.x, playerMove.y + offsetY, playerMove.z));
 }
 
 void CBulletManager::draw() { // ¤@¦¸³B²z©Ò¦³¤l¼u
@@ -41,7 +57,9 @@ void CBulletManager::draw() { // ¤@¦¸³B²z©Ò¦³¤l¼u
 void CBulletManager::update(float dt) { // ¤@¦¸³B²z©Ò¦³¤l¼u
 	pGet = pHead;
 	while (pGet != nullptr) {
-		if(pGet->bullet->fly(dt)) pGet = pGet->Link;
+		if (pGet->bullet->fly(dt)) {
+			pGet = pGet->Link;
+		}
 		else { // ²z½×¤W³Ì¥ý¥Í¦¨ªº·|³Ì¥ý®ø¥¢
 			PNODE temp = pGet->Link;
 			pGet = nullptr;

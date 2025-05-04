@@ -16,8 +16,8 @@ CBullet::CBullet() : CShape()
         -0.05f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 0.0f,    1.0f, 0.5f,  // 2
         0.05f, 0.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 0.0f,    0.0f, 0.0f,  // 3
         0.15f, 0.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 0.0f,    1.0f, 0.0f,  // 4
-        -0.05f, -0.2f, 0.0f,  1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 0.0f,    0.5f, 0.0f,  // 5
-        0.05f, -0.2f, 0.0f,   0.7f, 0.7f, 0.7f,    1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 6
+        -0.05f, -0.2f, 0.0f,  0.2f, 0.8f, 0.7f,    1.0f, 0.0f, 0.0f,    0.5f, 0.0f,  // 5
+        0.05f, -0.2f, 0.0f,   0.2f, 0.8f, 0.7f,    1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 6
     };
 
     _idx = new GLuint[_idxCount]{
@@ -61,7 +61,7 @@ bool CBullet::fly(float dt)
 
     _pos.y += 5.0f * dt; // ¦ì²¾³t«×
     if (_pos.y > maxY) return false;
-    mxBMove = glm::translate(glm::mat4(1.0f), glm::vec3(_pos.x, _pos.y, _pos.z));
+    mxBMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
     setTransformMatrix(mxBMove);
     return true;
 }

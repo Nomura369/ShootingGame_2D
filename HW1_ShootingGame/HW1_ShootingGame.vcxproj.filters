@@ -48,6 +48,12 @@
     <ClCompile Include="common\CBulletManager.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\CGradient.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\CStar.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h">
@@ -78,6 +84,12 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CBulletManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CGradient.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CStar.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
