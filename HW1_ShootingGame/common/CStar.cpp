@@ -10,7 +10,7 @@
 
 CStar::CStar() : CShape()
 {
-    randomX = 0.0f;
+    _randomX = 0.0f;
 
     _vtxCount = 8;           // 頂點數量
     _vtxAttrCount = 11;      // 每個頂點的屬性數量：位置(3), 顏色(3), 法向量(3), 貼圖座標(2)
@@ -54,7 +54,7 @@ void CStar::setRandomPos() {
     _mxPos = glm::translate(glm::mat4(1.0f), _pos);
 
     // 設定星星下降時回到上方的 X 座標（與 update 函式連結）
-    randomX = -3.0f + (float)rand() / RAND_MAX * 6.0f;
+    _randomX = -3.0f + (float)rand() / RAND_MAX * 6.0f;
 }
 
 void CStar::setRandomScale() {
@@ -85,7 +85,7 @@ void CStar::update(float dt) {
     _pos.y -= 1.0f * dt; // 位移速度（預計比子彈慢）
     if (_pos.y < minY) {
         _pos.y = -minY;
-        mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(randomX, _pos.y, 0.0f));
+        mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(_randomX, _pos.y, 0.0f));
     } else mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
     setTransformMatrix(mxMove);
 }

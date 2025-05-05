@@ -14,5 +14,5 @@ public:
 	virtual void update(float dt) override;
 
 protected:
-	float randomX;
+	float _randomX;
 };

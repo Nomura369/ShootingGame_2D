@@ -25,6 +25,9 @@
 #include "common/CGradient.h"
 #include "common/CStar.h"
 #include "common/CGridCoord.h"
+#include "common/CEnemy1.h"
+#include "common/CEnemy2.h"
+#include "common/CEnemy3.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -53,6 +56,9 @@ GLfloat g_viewScaleForY = 4.0f;
 /* ---------- 圖形物件宣告 ---------- */
 CPlayer g_player;
 CShield g_shield[SHIELD_NUM];
+CGradient gradient;
+CStar star[STAR_NUM];
+CEnemy1 g_enemy1;
 
 // Singleton Pattern
 CBulletManager* CBulletManager::instance = nullptr;
@@ -60,9 +66,6 @@ CBulletManager* g_BMInstance = CBulletManager::getInstance();
 //CGridCoord* CGridCoord::instance = nullptr;
 //CGridCoord* g_CGInstance = CGridCoord::getInstance();
 //glm::vec3* g_gridDots = g_CGInstance->getGridDots(); // 全域共用的格線座標陣列
-
-CGradient gradient;
-CStar star[STAR_NUM];
 
 glm::mat4 g_mxPSDist[SHIELD_NUM]; // 玩家到護盾間的位移矩陣
 glm::vec3 g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
@@ -101,6 +104,8 @@ void loadScene(void)
         star[i].setRandomPos();
         star[i].setRandomScale();
     }
+    g_enemy1.setupVertexAttributes();
+    g_enemy1.setShaderID(g_shaderProg);
 
     /* -------------------------------------- */
 
@@ -122,6 +127,7 @@ void render( void )
     g_BMInstance->draw();
     g_player.draw();
     for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
+    g_enemy1.draw();
 }
 //----------------------------------------------------------------------------
 
@@ -193,7 +199,7 @@ int main() {
     glfwSetMouseButtonCallback(window, mouseButtonCallback);        // 有滑鼠的按鍵被按下時
     glfwSetCursorPosCallback(window, cursorPosCallback);            // 滑鼠在指定的視窗上面移動時
 
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
 
     // 呼叫 loadScene() 建立與載入 GPU 進行描繪的幾何資料 
     loadScene();

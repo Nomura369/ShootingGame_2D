@@ -57,6 +57,15 @@
     <ClCompile Include="common\CGridCoord.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\CEnemy1.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\CEnemy2.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\CEnemy3.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h">
@@ -96,6 +105,15 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CGridCoord.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CEnemy1.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CEnemy2.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CEnemy3.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

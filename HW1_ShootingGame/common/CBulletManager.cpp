@@ -1,6 +1,5 @@
 #include <cstdio>
 #include <cstdlib>
-#include <iostream>
 
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
