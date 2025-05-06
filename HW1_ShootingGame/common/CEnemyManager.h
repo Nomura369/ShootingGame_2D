@@ -26,8 +26,8 @@ public:
 		return instance;
 	}
 	void instantiate(GLuint shaderProg); // 生成並設定敵人
-	//void draw();
-	//void update(float dt);
+	void draw();
+	void update(float dt);
 	~CEnemyManager();
 
 protected:
@@ -35,5 +35,4 @@ protected:
 	int _enemyType;
 	int _enemyColor;
 	float _randomX;
-	//float _intervalTime; // 每個敵人的生成時間間隔
 };

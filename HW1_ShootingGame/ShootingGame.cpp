@@ -28,6 +28,7 @@
 #include "common/CEnemy1.h"
 #include "common/CEnemy2.h"
 #include "common/CEnemy3.h"
+#include "common/CEnemyManager.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -44,6 +45,8 @@ bool g_bRotating = false; // 控制是否旋轉
 bool g_bRunning = false; // 判斷遊戲為開始 or 暫停（與原本的 g_bMoving 差不多）
 bool g_bShooting = false; // 玩家是否按下按鍵發射子彈
 float sAngle = 0.0f; // 計算護盾的旋轉角度（每幀更新）
+float enemyTimer = 0.0f; // 計算敵人生成的時間
+float enemyIntervalTime = rand() % 3 + 1.0f; // 每個敵人的生成時間間隔（1.0f-3.0 之間的整數秒）
 
 GLuint g_shaderProg; // Shader Program ID
 
@@ -58,11 +61,12 @@ CPlayer g_player;
 CShield g_shield[SHIELD_NUM];
 CGradient gradient;
 CStar star[STAR_NUM];
-CEnemy1 g_enemy1;
 
 // Singleton Pattern
 CBulletManager* CBulletManager::instance = nullptr;
 CBulletManager* g_BMInstance = CBulletManager::getInstance(); 
+CEnemyManager* CEnemyManager::instance = nullptr;
+CEnemyManager* g_EMInstance = CEnemyManager::getInstance();
 //CGridCoord* CGridCoord::instance = nullptr;
 //CGridCoord* g_CGInstance = CGridCoord::getInstance();
 //glm::vec3* g_gridDots = g_CGInstance->getGridDots(); // 全域共用的格線座標陣列
@@ -104,8 +108,7 @@ void loadScene(void)
         star[i].setRandomPos();
         star[i].setRandomScale();
     }
-    g_enemy1.setupVertexAttributes();
-    g_enemy1.setShaderID(g_shaderProg);
+    g_EMInstance->instantiate(g_shaderProg);
 
     /* -------------------------------------- */
 
@@ -127,7 +130,7 @@ void render( void )
     g_BMInstance->draw();
     g_player.draw();
     for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
-    g_enemy1.draw();
+    g_EMInstance->draw();
 }
 //----------------------------------------------------------------------------
 
@@ -149,6 +152,15 @@ void update(float dt)
 
         // 設定星星的移動
         for (int i = 0; i < STAR_NUM; i++) star[i].update(dt);
+
+        // 固定間隔不斷生成敵人
+        enemyTimer += dt;
+        if (enemyTimer >= enemyIntervalTime) {
+            g_EMInstance->instantiate(g_shaderProg);
+            enemyTimer = 0.0f;
+            enemyIntervalTime = rand() % 3 + 2.0f;
+        }
+        g_EMInstance->update(dt);
     }
 }
 

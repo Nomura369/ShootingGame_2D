@@ -15,4 +15,5 @@ private:
 	glm::vec3 _bodyColor; // 機身顏色
 	glm::vec3 _midColor; // 中間色
 	glm::vec3 _wingColor; // 機翼和尾部顏色
+	//bool _isAttacking;
 };

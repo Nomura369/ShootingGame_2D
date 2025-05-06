@@ -5,6 +5,8 @@
 
 CBullet::CBullet() : CShape()
 {
+    _isInWindow = true;
+
     _vtxCount = 18;           // 頂點數量
     _vtxAttrCount = 11;      // 每個頂點的屬性數量：位置(3), 顏色(3), 法向量(3), 貼圖座標(2)
     _idxCount = 36;          // 繪製需要的索引數
@@ -51,19 +53,16 @@ void CBullet::draw()
 
 void CBullet::update(float dt)
 {
-    
-}
-
-bool CBullet::fly(float dt)
-{
     glm::mat4 mxBMove; // 子彈的位移矩陣
     float maxY = 10.0f; // 將子彈射到螢幕外面
 
     _pos.y += 5.0f * dt; // 位移速度
-    if (_pos.y > maxY) return false;
-    mxBMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
-    setTransformMatrix(mxBMove);
-    return true;
+    if (_pos.y > maxY) _isInWindow = false;
+    else {
+        _isInWindow = true;
+        mxBMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
+        setTransformMatrix(mxBMove);
+    }
 }
 
 void CBullet::reset() {

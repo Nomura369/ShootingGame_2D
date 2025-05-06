@@ -5,6 +5,8 @@
 
 CEnemy1::CEnemy1(int colorType) : CShape()
 {
+    _isAttacking = false;
+
     glm::vec3 hexChoice[3] = {
         glm::vec3(0.8f, 0.4f, 0.4f), // 紅色
         glm::vec3(0.4f, 0.8f, 0.4f), // 綠色
@@ -71,7 +73,19 @@ void CEnemy1::draw()
 
 void CEnemy1::update(float dt)
 {
+    glm::mat4 mxMove; // 敵人的位移矩陣
+    float fixedY = -2.0f; // 讓敵人移動到定點進行攻擊
 
+    if (!_isAttacking) {
+        _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
+        mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
+        setTransformMatrix(mxMove);
+        if (_pos.y <= fixedY) _isAttacking = true;
+    }
+    else { // 開始攻擊，攻擊模式：移動到定點再發射彈幕
+
+    }
+    
 
 }
 

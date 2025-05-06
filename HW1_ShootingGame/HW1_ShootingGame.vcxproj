@@ -148,6 +148,7 @@
     <ClCompile Include="common\CEnemy1.cpp" />
     <ClCompile Include="common\CEnemy2.cpp" />
     <ClCompile Include="common\CEnemy3.cpp" />
+    <ClCompile Include="common\CEnemyManager.cpp" />
     <ClCompile Include="common\CGradient.cpp" />
     <ClCompile Include="common\CGridCoord.cpp" />
     <ClCompile Include="common\CPlayer.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="common\CEnemy1.h" />
     <ClInclude Include="common\CEnemy2.h" />
     <ClInclude Include="common\CEnemy3.h" />
+    <ClInclude Include="common\CEnemyManager.h" />
     <ClInclude Include="common\CGradient.h" />
     <ClInclude Include="common\CGridCoord.h" />
     <ClInclude Include="common\CPlayer.h" />

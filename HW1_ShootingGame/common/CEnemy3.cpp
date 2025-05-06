@@ -5,6 +5,8 @@
 
 CEnemy3::CEnemy3(int colorType) : CShape()
 {
+    //_isAttacking = false;
+
     glm::vec3 bodyChoice[3] = {
         glm::vec3(0.5f, 0.3f, 0.3f), // 紅色
         glm::vec3(0.3f, 0.5f, 0.3f), // 綠色
@@ -73,6 +75,15 @@ void CEnemy3::draw()
 
 void CEnemy3::update(float dt)
 {
+    glm::mat4 mxMove; // 敵人的位移矩陣
+    float amplitude = 0.7f; // sin 波寬度
+    float frequency = 2.0f; // 波動密集度
+
+    _pos.y -= 1.2f * dt; // 垂直下降速度（比背景快一點）
+    _pos.x = amplitude * sin(frequency * _pos.y);
+    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(_pos.x, _pos.y, 0.0f));
+    setTransformMatrix(mxMove);
+    // 攻擊模式：一邊向下蛇行一邊發射彈幕
 
 
 }

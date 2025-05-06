@@ -56,7 +56,8 @@ void CBulletManager::draw() { // 一次處理所有子彈
 void CBulletManager::update(float dt) { // 一次處理所有子彈
 	pGet = pHead;
 	while (pGet != nullptr) {
-		if (pGet->bullet->fly(dt)) {
+		pGet->bullet->update(dt);
+		if (pGet->bullet->_isInWindow) {
 			pGet = pGet->Link;
 		}
 		else { // 理論上最先生成的會最先消失

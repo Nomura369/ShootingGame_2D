@@ -15,4 +15,5 @@ private:
 	glm::vec3 _hexColor; // 機身顏色
 	glm::vec3 _triColor; // 腳架顏色
 	glm::vec3 _winColor; // 擋風玻璃顏色
+	bool _isAttacking;
 };

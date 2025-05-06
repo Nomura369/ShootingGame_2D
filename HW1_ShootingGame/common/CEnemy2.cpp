@@ -5,6 +5,8 @@
 
 CEnemy2::CEnemy2(int colorType) : CShape()
 {
+    // _isAttacking = false;
+
     glm::vec3 bodyChoice[3] = {
         glm::vec3(0.5f, 0.3f, 0.3f), // 紅色
         glm::vec3(0.3f, 0.5f, 0.3f), // 綠色
@@ -67,8 +69,12 @@ void CEnemy2::draw()
 
 void CEnemy2::update(float dt)
 {
+    glm::mat4 mxMove; // 敵人的位移矩陣
 
-
+    _pos.y -= 2.0f * dt; // 位移速度（比背景快）
+    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
+    setTransformMatrix(mxMove);
+    // 攻擊模式：一邊向下快速移動一邊發射彈幕
 }
 
 void CEnemy2::reset() {
