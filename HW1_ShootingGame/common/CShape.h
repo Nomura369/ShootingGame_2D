@@ -18,9 +18,7 @@ public:
 	void setRotX(float angle); // 設定模型的X軸旋轉角度
 	void setRotY(float angle); // 設定模型的Y軸旋轉角度
 	void setRotZ(float angle); // 設定模型的Z軸旋轉角度
-	bool getIsInWindow() {
-		return _isInWindow;
-	}
+	bool getIsInWindow(); // 取得模型是否在視窗內的狀態
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();
 

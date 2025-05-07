@@ -1,32 +1,4 @@
-﻿/*-------------------功能需求開頭-------------------*/
-//(8 %) 操控與背景部分
-//  (1 %) 滑鼠可以控制戰鬥機的左右移動 v
-//  (1 %) 戰鬥機傭有防禦裝置，並以父子關係方式呈現 v
-//  (1 %) 可以發射飛彈 v
-//  (3 %) 能提供連續發射(LINKED LIST，自己撰寫，使用STL 2分) v
-//  (2 %)  能產生有速度感的背景物件，或是其他裝飾性的物件 v
-//(11 %) 敵人部分
-//  (2 %) 有至少三種以上不同外形的敵人(不同的顏色)，基本的四方型不算在內 v
-//  (3 %) 以物件導向的多型來控制所有的敵人 v
-//  (1 %)  敵人可以不斷的產生，而且具有不同的顏色 v
-//  (1 %)  敵人能隨機朝向玩家發射子彈攻擊
-//  (2 %)  戰鬥機發射的子彈可以打到敵人，而且敵人會消失
-//  (2 %)  有 BOSS 級的敵人，且至會根據被攻擊的多寡至少三種不同的狀態(外型改變或攻擊方式)可以切換
-//(4 %) (玩家部分)
-//  (2 %)  能判斷玩家是否被打中 並做出合理的反應
-//  (2 %)  玩家的船艦至少有三種狀態(外型改變)，且有提供玩家的船艦可改變狀態的機制
-//(8 %) 其他你覺得可以展示的技術，包含物理或是數學的運算
-//  (2 %)提供階層式動態控制，並以時間為基礎進行動態的展示 v
-//  (2 %)發射導向飛彈攻擊移動的 Boss
-//  敵人被打到有其他的效果
-//  戰鬥機被打到時有其他的效果
-//  背景除了速度感物件外，有其他的效果
-//  …
-//總分：16
-//(4 %) 創意分數，老師的個人的主觀
-/*-------------------功能需求結尾-------------------*/
-
-// Draw a  Circle with a radius of 0.8 unit
+﻿// Draw a  Circle with a radius of 0.8 unit
 //#define GLM_ENABLE_EXPERIMENTAL 1
 
 #include <iostream>
@@ -52,7 +24,6 @@
 #include "common/CBulletManager.h"
 #include "common/CGradient.h"
 #include "common/CStar.h"
-#include "common/CGridCoord.h"
 #include "common/CEnemy1.h"
 #include "common/CEnemy2.h"
 #include "common/CEnemy3.h"
@@ -70,7 +41,6 @@ Arcball g_arcball; // arcball 設定（不必更動）
 
 /* ---------- 遊戲的狀態控制 ---------- */
 bool g_bRotating = false; // 控制是否旋轉
-//bool g_bMoving = false;
 bool g_bRunning = false; // 判斷遊戲為開始 or 暫停（與原本的 g_bMoving 差不多）
 bool g_bShooting = false; // 玩家是否按下按鍵發射子彈
 float sAngle = 0.0f; // 計算護盾的旋轉角度（每幀更新）
@@ -96,9 +66,6 @@ CBulletManager* CBulletManager::instance = nullptr;
 CBulletManager* g_BMInstance = CBulletManager::getInstance(); 
 CEnemyManager* CEnemyManager::instance = nullptr;
 CEnemyManager* g_EMInstance = CEnemyManager::getInstance();
-//CGridCoord* CGridCoord::instance = nullptr;
-//CGridCoord* g_CGInstance = CGridCoord::getInstance();
-//glm::vec3* g_gridDots = g_CGInstance->getGridDots(); // 全域共用的格線座標陣列
 
 glm::mat4 g_mxPSDist[SHIELD_NUM]; // 玩家到護盾間的位移矩陣
 glm::vec3 g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
@@ -181,7 +148,7 @@ void update(float dt)
         // 設定星星的移動
         for (int i = 0; i < STAR_NUM; i++) star[i].update(dt);
 
-        // 固定間隔不斷生成敵人
+        // 根據隨機的時間間隔不斷生成敵人
         enemyTimer += dt;
         if (enemyTimer >= enemyIntervalTime) {
             g_EMInstance->instantiate(g_shaderProg, g_PMove);

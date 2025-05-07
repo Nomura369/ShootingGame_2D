@@ -5,8 +5,6 @@
 
 CBullet::CBullet() : CShape()
 {
-    /*_isInWindow = true;*/
-
     _vtxCount = 18;           // 頂點數量
     _vtxAttrCount = 11;      // 每個頂點的屬性數量：位置(3), 顏色(3), 法向量(3), 貼圖座標(2)
     _idxCount = 36;          // 繪製需要的索引數
@@ -64,10 +62,6 @@ void CBullet::update(float dt)
         setTransformMatrix(mxBMove);
     }
 }
-
-//bool CBullet::getIsInWindow() {
-//    return _isInWindow;
-//}
 
 void CBullet::reset() {
     CShape::reset();

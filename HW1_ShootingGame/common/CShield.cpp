@@ -1,7 +1,6 @@
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
-#include <iostream>
 
 #include "CShield.h"
 
@@ -18,8 +17,7 @@ CShield::CShield(float rds) : CShape()
     // 先將圓心放入頂點座標陣列
     x.push_back(_pos.x);
     y.push_back(_pos.y);
-    // 產生圓周座標
-    /*std::cout << "CShield's radius: " << _radius << std::endl;*/
+    
     for (int i = 1; i <= _segment + 1; ++i) {
         float angle = 2.0f * M_PI * i / _segment;
         x.push_back(0.0f + cos(angle) * _radius);

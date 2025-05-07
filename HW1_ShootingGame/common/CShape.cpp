@@ -26,7 +26,8 @@ CShape::CShape()
 	_mxFinal = glm::mat4(1.0f);
 	_modelMxLoc = 0;
 	_points = nullptr; _idx = nullptr;
-	_isInWindow = true;
+	
+	_isInWindow = true; // 模型是否在視窗範圍內
 }
 
 CShape::~CShape()
@@ -171,6 +172,8 @@ void CShape::setTransformMatrix(glm::mat4 mxMatrix)
 glm::mat4 CShape::getModelMatrix() { return _mxFinal; }
 
 GLuint CShape::getShaderProgram() { return _shaderProg; }
+
+bool CShape::getIsInWindow() { return _isInWindow; }
 
 void CShape::reset()
 {

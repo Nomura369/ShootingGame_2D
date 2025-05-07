@@ -1,8 +1,6 @@
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <iostream>
-
 #include "CEnemy1.h"
 
 CEnemy1::CEnemy1(int colorType) : CShape()
