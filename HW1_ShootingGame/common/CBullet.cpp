@@ -65,6 +65,10 @@ void CBullet::update(float dt)
     }
 }
 
+bool CBullet::getIsInWindow() {
+    return _isInWindow;
+}
+
 void CBullet::reset() {
     CShape::reset();
     // 如有需要，可加入其他特定於四邊形的重設動作

@@ -8,6 +8,14 @@ private:
 	static CBulletManager* instance;
 	CBulletManager(); // 建立鏈結串列
 
+	typedef struct TNode {
+		CBullet* bullet;
+		struct TNode* Link;
+	} NODE, * PNODE; // 子彈節點宣告
+	//int count; // 記錄目前節點的數量
+	//CBullet* in; // 記錄正要放進去的子彈資料
+	PNODE pHead, pTail, pGet;
+
 public:
 	// 確保外部不得複製此類別的實例
 	CBulletManager(CBulletManager& other) = delete;
@@ -24,13 +32,5 @@ public:
 	void draw(); // 一次畫出鏈結串列中現有的全部子彈
 	void update(float dt); // 一次更新全部子彈的移動狀態
 	~CBulletManager(); // 釋放鏈結串列
-
-protected:
-	typedef struct TNode {
-		CBullet* bullet;
-		struct TNode* Link;
-	} NODE, * PNODE; // 子彈節點宣告
-	//int count; // 記錄目前節點的數量
-	//CBullet* in; // 記錄正要放進去的子彈資料
-	PNODE pHead, pTail, pGet;
+	
 };

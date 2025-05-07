@@ -18,6 +18,9 @@ public:
 	void setRotX(float angle); // 設定模型的X軸旋轉角度
 	void setRotY(float angle); // 設定模型的Y軸旋轉角度
 	void setRotZ(float angle); // 設定模型的Z軸旋轉角度
+	void setTargetMove(glm::vec3 targetMove) { // 設定追蹤對象
+		_targetMove = targetMove;
+	} 
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();
 
@@ -43,4 +46,6 @@ protected:
 	GLfloat _rotX, _rotY, _rotZ; // 模型的旋轉角度
 	glm::mat4 _mxRotX, _mxRotY, _mxRotZ, _mxRotation, _mxScale, _mxPos, _mxTRS;
 	glm::mat4 _mxTransform, _mxFinal;
+
+	glm::vec3 _targetMove; // 追蹤用
 };

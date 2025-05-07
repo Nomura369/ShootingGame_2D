@@ -13,6 +13,11 @@ private:
 	static CEnemyManager* instance;
 	CEnemyManager();
 
+	list<CShape*> _enemyList; // （繼承真是一件神奇的事）
+	int _enemyType;
+	int _enemyColor;
+	float _randomX;
+	
 public:
 	// 確保外部不得複製此類別的實例
 	CEnemyManager(CEnemyManager& other) = delete;
@@ -25,14 +30,9 @@ public:
 		}
 		return instance;
 	}
-	void instantiate(GLuint shaderProg); // 生成並設定敵人
+	CShape& instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成並設定敵人
 	void draw();
 	void update(float dt);
 	~CEnemyManager();
 
-protected:
-	list<CShape*> _enemyList; // （繼承真是一件神奇的事）
-	int _enemyType;
-	int _enemyColor;
-	float _randomX;
 };

@@ -1,5 +1,9 @@
 #pragma once
+#include <list>
+using namespace std;
+
 #include "CShape.h"
+#include "CAttack.h"
 
 // 定義敵人類別(1)
 class CEnemy1 : public CShape
@@ -16,4 +20,7 @@ private:
 	glm::vec3 _triColor; // 腳架顏色
 	glm::vec3 _winColor; // 擋風玻璃顏色
 	bool _isAttacking;
+	float _attackTimer;
+	float _attackIntervalTime;
+	list<CAttack*> _attackList;
 };

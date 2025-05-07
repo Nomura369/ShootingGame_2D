@@ -26,6 +26,7 @@ CShape::CShape()
 	_mxFinal = glm::mat4(1.0f);
 	_modelMxLoc = 0;
 	_points = nullptr; _idx = nullptr;
+	_targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 CShape::~CShape()

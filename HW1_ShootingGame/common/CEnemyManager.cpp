@@ -14,7 +14,7 @@ CEnemyManager::~CEnemyManager() {
 
 }
 
-void CEnemyManager::instantiate(GLuint shaderProg) { // 一次處理一個
+CShape& CEnemyManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // 一次處理一個
 	_enemyType = rand() % 3; // 從三種敵人裡選一種生成
 	_enemyColor = rand() % 3; // 隨機選擇一種色系
 	if (_enemyType == 0) _enemyList.push_back(new CEnemy1(_enemyColor));
@@ -30,6 +30,11 @@ void CEnemyManager::instantiate(GLuint shaderProg) { // 一次處理一個
 	// 設定初始位置（從螢幕上方之外隨機指定 X 軸座標）
 	_randomX = -2.5f + (float)rand() / RAND_MAX * 5.0f;
 	currentEnemy->setPos(glm::vec3(_randomX, 4.5f, 0.0f));
+
+	// 設定敵人的攻擊目標
+	currentEnemy->setTargetMove(playerMove);
+
+	return *currentEnemy;
 }
 
 void CEnemyManager::draw() { // 一次處理全部

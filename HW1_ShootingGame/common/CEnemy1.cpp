@@ -1,11 +1,15 @@
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <iostream>
+
 #include "CEnemy1.h"
 
 CEnemy1::CEnemy1(int colorType) : CShape()
 {
     _isAttacking = false;
+    _attackTimer = 0.0f;
+    _attackIntervalTime = 2.0f;
 
     glm::vec3 hexChoice[3] = {
         glm::vec3(0.8f, 0.4f, 0.4f), // 紅色
@@ -69,24 +73,50 @@ void CEnemy1::draw()
     updateMatrix();
     glBindVertexArray(_vao);
     glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
+    
+    // 繪製並現有的所有子彈
+    //for (CAttack* attack : _attackList) {
+    //    attack->draw();
+    //}
 }
 
 void CEnemy1::update(float dt)
 {
     glm::mat4 mxMove; // 敵人的位移矩陣
     float fixedY = -2.0f; // 讓敵人移動到定點進行攻擊
-
-    if (!_isAttacking) {
-        _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
-        mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
-        setTransformMatrix(mxMove);
-        if (_pos.y <= fixedY) _isAttacking = true;
-    }
-    else { // 開始攻擊，攻擊模式：移動到定點再發射彈幕
-
-    }
     
+    _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
+    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
+    setTransformMatrix(mxMove);
 
+    //if (!_isAttacking) {
+    //    _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
+    //    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
+    //    setTransformMatrix(mxMove);
+    //    if (_pos.y <= fixedY) {
+    //        _isAttacking = true;
+    //        _pos.y = -fixedY - 1.0f; // 待會讓子彈在敵人下方生成
+    //    }
+    //}
+    //else {
+    //    _attackTimer += dt;
+    //    if (_attackTimer >= _attackIntervalTime) {
+    //        // 生成並設定子彈
+    //        CAttack* currentAttack = new CAttack;
+    //        _attackList.push_back(currentAttack);
+    //        currentAttack->setupVertexAttributes();
+    //        currentAttack->setShaderID(getShaderProgram());
+    //        currentAttack->setPos(_pos); // 在敵人附近生成
+    //        currentAttack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
+    //        currentAttack->setTargetMove(_targetMove); // 朝向玩家攻擊
+
+    //        _attackTimer = 0.0f; // 重設攻擊計時器
+    //    }
+    //    // 更新現有的所有子彈
+    //    for (CAttack* attack : _attackList) {
+    //        attack->update(dt);
+    //    }
+    //}
 }
 
 void CEnemy1::reset() {

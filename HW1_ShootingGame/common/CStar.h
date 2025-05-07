@@ -13,6 +13,6 @@ public:
 	virtual void reset() override;
 	virtual void update(float dt) override;
 
-protected:
+private:
 	float _randomX;
 };
