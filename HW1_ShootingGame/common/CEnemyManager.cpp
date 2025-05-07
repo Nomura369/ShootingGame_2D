@@ -11,7 +11,10 @@ CEnemyManager::CEnemyManager() {
 }
 
 CEnemyManager::~CEnemyManager() {
-
+	for (CShape* ene : _enemyList) {
+		delete ene;
+	}
+	_enemyList.clear();
 }
 
 CShape& CEnemyManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // 一次處理一個
@@ -32,7 +35,7 @@ CShape& CEnemyManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { //
 	currentEnemy->setPos(glm::vec3(_randomX, 4.5f, 0.0f));
 
 	// 設定敵人的攻擊目標
-	currentEnemy->setTargetMove(playerMove);
+	//currentEnemy->setTargetMove(playerMove);
 
 	return *currentEnemy;
 }
@@ -44,7 +47,16 @@ void CEnemyManager::draw() { // 一次處理全部
 }
 
 void CEnemyManager::update(float dt) { // 一次處理全部
-	for (CShape* ene : _enemyList) {
+	for (auto it = _enemyList.begin(); it != _enemyList.end(); ) {
+		CShape* ene = *it;
 		ene->update(dt);
+
+		if (!ene->getIsInWindow()) {
+			delete ene;
+			it = _enemyList.erase(it); // 刪掉並前進
+		}
+		else {
+			++it; // 沒刪，就正常前進
+		}
 	}
 }

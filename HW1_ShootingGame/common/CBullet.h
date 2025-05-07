@@ -11,8 +11,8 @@ public:
 	virtual void draw() override;
 	virtual void reset() override;
 	virtual void update(float dt) override; // 主要用來控制子彈的移動
-	bool getIsInWindow();
+	/*bool getIsInWindow();*/
 
 private:
-	bool _isInWindow; // 記錄子彈是否還在視窗內
+	//bool _isInWindow; // 記錄子彈是否還在視窗內
 };

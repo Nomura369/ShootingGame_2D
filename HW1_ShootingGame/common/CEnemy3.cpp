@@ -86,10 +86,12 @@ void CEnemy3::update(float dt)
     float amplitude = 0.7f; // sin 波寬度
     float frequency = 2.0f; // 波動密集度
 
-    _pos.y -= 1.2f * dt; // 垂直下降速度（比背景快一點）
+    _pos.y -= 1.5f * dt; // 垂直下降速度（比背景快一點）
     _pos.x = amplitude * sin(frequency * _pos.y);
     mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(_pos.x, _pos.y, 0.0f));
     setTransformMatrix(mxMove);
+
+    if (_pos.y < -10.0f) _isInWindow = false;
 
     // 攻擊模式：一邊向下蛇行一邊發射彈幕
     //_attackTimer += dt;

@@ -82,6 +82,8 @@ void CEnemy2::update(float dt)
     mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
     setTransformMatrix(mxMove);
 
+    if (_pos.y < -10.0f) _isInWindow = false;
+
     // 攻擊模式：一邊向下快速移動一邊發射彈幕
     //_attackTimer += dt;
     //if (_attackTimer >= _attackIntervalTime) {

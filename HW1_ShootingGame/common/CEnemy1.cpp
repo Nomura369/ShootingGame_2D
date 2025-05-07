@@ -85,9 +85,11 @@ void CEnemy1::update(float dt)
     glm::mat4 mxMove; // 敵人的位移矩陣
     float fixedY = -2.0f; // 讓敵人移動到定點進行攻擊
     
-    _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
+    _pos.y -= 1.2f * dt; // 位移速度（比背景快一點點）
     mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
     setTransformMatrix(mxMove);
+
+    if (_pos.y < -10.0f) _isInWindow = false;
 
     //if (!_isAttacking) {
     //    _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
