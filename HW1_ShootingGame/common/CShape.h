@@ -19,6 +19,9 @@ public:
 	void setRotY(float angle); // 設定模型的Y軸旋轉角度
 	void setRotZ(float angle); // 設定模型的Z軸旋轉角度
 	bool getIsInWindow(); // 取得模型是否在視窗內的狀態
+	void setTargetMove(glm::vec3 targetMove) {
+		_targetMove = targetMove;
+	}
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();
 
@@ -45,5 +48,6 @@ protected:
 	glm::mat4 _mxRotX, _mxRotY, _mxRotZ, _mxRotation, _mxScale, _mxPos, _mxTRS;
 	glm::mat4 _mxTransform, _mxFinal;
 
-	bool _isInWindow;
+	bool _isInWindow; // 記錄模型是否還在視窗範圍內
+	glm::vec3 _targetMove; // 提供有追蹤功能的模型使用
 };

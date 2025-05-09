@@ -28,21 +28,7 @@ void CBulletManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // ¤
 	currentBullet->setupVertexAttributes();
 	currentBullet->setShaderID(shaderProg);
 	currentBullet->setScale(glm::vec3(0.9f, 0.9f, 0.9f));
-	// ªì©l¦ì¸m§Y¬°·Æ¹«¦ì¸m¡]½Õ¾ã Y ¶b°¾²¾¡^
-	float offsetY = 0.0f;
-	if (playerMove.y > 0.0f) {
-		if (playerMove.y > 3.0f) offsetY = -1.4f;
-		else if (playerMove.y > 2.0f) offsetY = -1.2f;
-		else if (playerMove.y > 1.0f) offsetY = -0.6f;
-		else offsetY = -0.2f;
-	}
-	else if (playerMove.y < 0.0f) {
-		if (playerMove.y < -3.0f) offsetY = 1.7f;
-		else if (playerMove.y < -2.0f) offsetY = 1.5f;
-		else if (playerMove.y < -1.0f) offsetY = 0.9f;
-		else offsetY = 0.5f;
-	}
-	currentBullet->setPos(glm::vec3(playerMove.x, playerMove.y + offsetY, playerMove.z));
+	currentBullet->setPos(playerMove); // ªì©l¦ì¸m§Y¬°·Æ¹«¦ì¸m
 }
 
 void CBulletManager::draw() { // ¤@¦¸³B²z©Ò¦³¤l¼u

@@ -27,7 +27,8 @@ CShape::CShape()
 	_modelMxLoc = 0;
 	_points = nullptr; _idx = nullptr;
 	
-	_isInWindow = true; // 模型是否在視窗範圍內
+	_isInWindow = true; // 預設模型一開始都在視窗內
+	_targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 CShape::~CShape()

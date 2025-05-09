@@ -54,9 +54,6 @@
     <ClCompile Include="common\CStar.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="common\CGridCoord.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
     <ClCompile Include="common\CEnemy1.cpp">
       <Filter>common</Filter>
     </ClCompile>
@@ -108,9 +105,6 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CStar.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\CGridCoord.h">
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CEnemy1.h">

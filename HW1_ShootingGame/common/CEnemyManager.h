@@ -30,7 +30,7 @@ public:
 		}
 		return instance;
 	}
-	CShape& instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成並設定敵人
+	void instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成並設定敵人
 	void draw();
 	void update(float dt);
 	~CEnemyManager();

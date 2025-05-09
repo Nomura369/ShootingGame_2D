@@ -35,7 +35,7 @@
 #define SCREEN_HEIGHT 800
 
 #define SHIELD_NUM 3
-#define STAR_NUM 25
+#define STAR_NUM 100
 
 Arcball g_arcball; // arcball 設定（不必更動）
 

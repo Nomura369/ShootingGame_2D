@@ -58,8 +58,8 @@ void CStar::setRandomPos() {
 }
 
 void CStar::setRandomScale() {
-    // ÁY©ñ 0.1f - 0.5f ­¿ 
-    float randomScale = 0.1f + (float)rand() / RAND_MAX * 0.4f;
+    // ÁY©ñ 0.1f - 0.3f ­¿ 
+    float randomScale = 0.1f + (float)rand() / RAND_MAX * 0.2f;
     _scale = glm::vec3(randomScale, randomScale, 1.0f);
     _bScale = true;
     _mxScale = glm::scale(glm::mat4(1.0f), _scale);

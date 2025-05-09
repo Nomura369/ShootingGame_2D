@@ -15,7 +15,7 @@ CEnemy1::CEnemy1(int colorType) : CShape()
         glm::vec3(0.4f, 0.4f, 0.8f)  // 藍色
     };
     _hexColor = hexChoice[colorType]; // 機身顏色
-    _triColor = glm::vec3(_hexColor.x - 0.2f, _hexColor.y - 0.2f, _hexColor.z - 0.2f); // 腳架顏色
+    _triColor = glm::vec3(_hexColor.x - 0.4f, _hexColor.y - 0.4f, _hexColor.z - 0.4f); // 腳架顏色
     _winColor = glm::vec3(0.7f, 0.8f, 0.9f); // 擋風玻璃顏色
 
     _vtxCount = 16;           // 頂點數量
@@ -23,23 +23,23 @@ CEnemy1::CEnemy1(int colorType) : CShape()
     _idxCount = 27;          // 繪製需要的索引數
 
     _points = new GLfloat[_vtxCount * _vtxAttrCount]{
-        // 位置                  // 顏色                                   // 法向量          // 貼圖座標
-        0.0f, 0.0f, 0.0f,        _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    0.5f, 1.0f, // 0
-        0.0f, 0.5f, 0.0f,        _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    0.0f, 0.5f,  // 1
-        -0.4f, 0.3f, 0.0f,       _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 0.5f,  // 2
-        0.4f, 0.3f, 0.0f,        _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    0.0f, 0.0f,  // 3
-        -0.4f, -0.3f, 0.0f,      _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 0.0f,  // 4
-        0.4f, -0.3f, 0.0f,       _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    0.5f, 0.0f,  // 5
-        0.0f, -0.5f, 0.0f,       _hexColor.x, _hexColor.y, _hexColor.z,    1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 6
-        0.0f, 0.2f, 0.0f,        _winColor.x, _winColor.y, _winColor.z,    1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 7
-        -0.3f, 0.0f, 0.0f,       _winColor.x, _winColor.y, _winColor.z,    1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 8
-        0.3f, 0.0f, 0.0f,        _winColor.x, _winColor.y, _winColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 9
-        -0.26f, -0.37f, 0.0f,    _triColor.x, _triColor.y, _triColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 10
-        -0.12f, -0.44f, 0.0f,    _triColor.x, _triColor.y, _triColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 11
-        -0.2f, -0.6f, 0.0f,      _triColor.x, _triColor.y, _triColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 12
-        0.12f, -0.44f, 0.0f,     _triColor.x, _triColor.y, _triColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 13
-        0.26f, -0.37f, 0.0f,     _triColor.x, _triColor.y, _triColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 14
-        0.2f, -0.6f, 0.0f,       _triColor.x, _triColor.y, _triColor.z,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 15
+        // 位置                  // 顏色                                                  // 法向量          // 貼圖座標
+        0.0f, 0.0f, 0.0f,        _hexColor.x, _hexColor.y, _hexColor.z,                   1.0f, 0.0f, 0.0f,    0.5f, 1.0f, // 0
+        0.0f, 0.5f, 0.0f,        _hexColor.x+0.2f, _hexColor.y+0.2f, _hexColor.z+0.2f,    1.0f, 0.0f, 0.0f,    0.0f, 0.5f,  // 1
+        -0.4f, 0.3f, 0.0f,       _hexColor.x, _hexColor.y, _hexColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 0.5f,  // 2
+        0.4f, 0.3f, 0.0f,        _hexColor.x, _hexColor.y, _hexColor.z,                   1.0f, 0.0f, 0.0f,    0.0f, 0.0f,  // 3
+        -0.4f, -0.3f, 0.0f,      _hexColor.x-0.2f, _hexColor.y-0.2f, _hexColor.z-0.2f,    1.0f, 0.0f, 0.0f,    1.0f, 0.0f,  // 4
+        0.4f, -0.3f, 0.0f,       _hexColor.x-0.2f, _hexColor.y-0.2f, _hexColor.z-0.2f,    1.0f, 0.0f, 0.0f,    0.5f, 0.0f,  // 5
+        0.0f, -0.5f, 0.0f,       _hexColor.x-0.2f, _hexColor.y-0.2f, _hexColor.z-0.2f,    1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 6
+        0.0f, 0.2f, 0.0f,        _winColor.x, _winColor.y, _winColor.z,                   1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 7
+        -0.3f, 0.0f, 0.0f,       _winColor.x-0.1f, _winColor.y-0.1f, _winColor.z,         1.0f, 0.0f, 0.0f,    0.0f, 1.0f,  // 8
+        0.3f, 0.0f, 0.0f,        _winColor.x-0.1f, _winColor.y-0.1f, _winColor.z,         1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 9
+        -0.26f, -0.37f, 0.0f,    _triColor.x, _triColor.y, _triColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 10
+        -0.12f, -0.44f, 0.0f,    _triColor.x, _triColor.y, _triColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 11
+        -0.2f, -0.6f, 0.0f,      _triColor.x, _triColor.y, _triColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 12
+        0.12f, -0.44f, 0.0f,     _triColor.x, _triColor.y, _triColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 13
+        0.26f, -0.37f, 0.0f,     _triColor.x, _triColor.y, _triColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 14
+        0.2f, -0.6f, 0.0f,       _triColor.x, _triColor.y, _triColor.z,                   1.0f, 0.0f, 0.0f,    1.0f, 1.0f,   // 15
     };
 
     _idx = new GLuint[_idxCount]{
@@ -73,50 +73,45 @@ void CEnemy1::draw()
     glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
     
     // 繪製並現有的所有子彈
-    //for (CAttack* attack : _attackList) {
-    //    attack->draw();
-    //}
+    for (CAttack* attack : _attackList) {
+        attack->draw();
+    }
 }
 
 void CEnemy1::update(float dt)
 {
-    glm::mat4 mxMove; // 敵人的位移矩陣
-    float fixedY = -2.0f; // 讓敵人移動到定點進行攻擊
-    
-    _pos.y -= 1.2f * dt; // 位移速度（比背景快一點點）
-    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
-    setTransformMatrix(mxMove);
+    float startY = 4.5f; // 該敵人生成時的 Y 軸位置
+    float endY = 2.0f; // 讓敵人移動到定點進行攻擊（不會有超出視窗的情況）
 
-    if (_pos.y < -10.0f) _isInWindow = false;
+    if (!_isAttacking) {
+        _pos.y -= 1.2f * dt; // 位移速度（比背景快一點點）
+        setPos(_pos);
+        if (_pos.y <= endY) {
+            _isAttacking = true;
+            _pos.y = endY;
+        }
+    }
+    else {
+        _attackTimer += dt;
+        if (_attackTimer >= _attackIntervalTime) {
+            // 生成並設定子彈
+            CAttack* attack = new CAttack;
+            _attackList.push_back(attack);
+            attack->setupVertexAttributes();
+            attack->setShaderID(getShaderProgram());
+            attack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
 
-    //if (!_isAttacking) {
-    //    _pos.y -= 1.0f * dt; // 位移速度（跟背景一樣快）
-    //    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
-    //    setTransformMatrix(mxMove);
-    //    if (_pos.y <= fixedY) {
-    //        _isAttacking = true;
-    //        _pos.y = -fixedY - 1.0f; // 待會讓子彈在敵人下方生成
-    //    }
-    //}
-    //else {
-    //    _attackTimer += dt;
-    //    if (_attackTimer >= _attackIntervalTime) {
-    //        // 生成並設定子彈
-    //        CAttack* currentAttack = new CAttack;
-    //        _attackList.push_back(currentAttack);
-    //        currentAttack->setupVertexAttributes();
-    //        currentAttack->setShaderID(getShaderProgram());
-    //        currentAttack->setPos(_pos); // 在敵人附近生成
-    //        currentAttack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
-    //        currentAttack->setTargetMove(_targetMove); // 朝向玩家攻擊
+            attack->setPos(_pos);
+            attack->setDirection(_targetMove); // 設定攻擊方向（目標）
 
-    //        _attackTimer = 0.0f; // 重設攻擊計時器
-    //    }
-    //    // 更新現有的所有子彈
-    //    for (CAttack* attack : _attackList) {
-    //        attack->update(dt);
-    //    }
-    //}
+            _attackTimer = 0.0f; // 重設攻擊計時器
+        }
+        // 更新現有的所有子彈
+        for (CAttack* attack : _attackList) {
+            attack->update(dt);
+        }
+    }
+
 }
 
 void CEnemy1::reset() {

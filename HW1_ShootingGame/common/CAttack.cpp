@@ -11,7 +11,6 @@
 
 CAttack::CAttack(float rds) : CShape()
 {
-    //_isInWindow = true;
     _direction = glm::vec3(0.0f, 1.0f, 0.0f);
     _targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -95,9 +94,7 @@ void CAttack::update(float dt)
     float speed = 1.0f;
 
     _pos += _direction * dt * speed;
-
-    glm::mat4 mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(_pos));
-    setTransformMatrix(mxMove);
+    setPos(_pos);
 
     if (_pos.y < -10.0f) _isInWindow = false;
 }
