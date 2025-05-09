@@ -74,8 +74,8 @@ glm::vec3 g_PSDist[SHIELD_NUM] = { // 各護盾與玩家的距離
     glm::vec3(-0.5f, -0.8f, 0.0f) 
 };
 glm::mat4 mxSRot; // 護盾的旋轉矩陣
-glm::vec3 g_PMove; // 玩家的位移向量
-glm::mat4 g_mxPMove; // 玩家的位移矩陣
+glm::vec3 PMove; // 玩家的位移向量
+glm::mat4 mxPMove; // 玩家的位移矩陣
 
 //----------------------------------------------------------------------------
 void loadScene(void)
@@ -133,14 +133,18 @@ void update(float dt)
 {
     if (g_bRunning)
     {
+        // 更新玩家的位移向量和矩陣
+        mxPMove = g_player.getModelMatrix();
+        PMove = glm::vec3(mxPMove[3].x, mxPMove[3].y, mxPMove[3].z);
+        
         sAngle += 3.0f * dt;
         if (sAngle > 360.0f) sAngle -= 360.0f;
         // 讓護盾跟著玩家的戰鬥機（滑鼠）位移並旋轉
         mxSRot = glm::rotate(glm::mat4(1.0f), sAngle, glm::vec3(0.0f, 0.0f, 1.0f));
-        for (int i = 0; i < SHIELD_NUM; i++) g_shield[i].setTransformMatrix(g_mxPMove * mxSRot);
+        for (int i = 0; i < SHIELD_NUM; i++) g_shield[i].setTransformMatrix(mxPMove * mxSRot);
         
         if (g_bShooting) {
-            g_BMInstance->instantiate(g_shaderProg, g_PMove); // 按下左鍵生成（發射）子彈
+            g_BMInstance->instantiate(g_shaderProg, PMove); // 按下左鍵生成（發射）子彈
             g_bShooting = false;
         }
         g_BMInstance->update(dt);
@@ -151,7 +155,7 @@ void update(float dt)
         // 根據隨機的時間間隔不斷生成敵人
         enemyTimer += dt;
         if (enemyTimer >= enemyIntervalTime) {
-            g_EMInstance->instantiate(g_shaderProg, g_PMove);
+            g_EMInstance->instantiate(g_shaderProg, PMove);
             
             enemyTimer = 0.0f;
             enemyIntervalTime = rand() % 3 + 2.0f;
@@ -207,7 +211,7 @@ int main() {
     glfwSetMouseButtonCallback(window, mouseButtonCallback);        // 有滑鼠的按鍵被按下時
     glfwSetCursorPosCallback(window, cursorPosCallback);            // 滑鼠在指定的視窗上面移動時
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
 
     // 呼叫 loadScene() 建立與載入 GPU 進行描繪的幾何資料 
     loadScene();

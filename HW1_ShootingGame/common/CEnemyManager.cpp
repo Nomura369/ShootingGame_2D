@@ -34,8 +34,8 @@ void CEnemyManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // 一
 	_randomX = -2.5f + (float)rand() / RAND_MAX * 5.0f;
 	currentEnemy->setPos(glm::vec3(_randomX, 4.5f, 0.0f));
 
-	// 設定敵人的攻擊目標
-	//currentEnemy->setTargetMove(playerMove);
+	// 設定敵人的攻擊目標（即為玩家）
+	currentEnemy->setTargetMove(playerMove);
 
 }
 

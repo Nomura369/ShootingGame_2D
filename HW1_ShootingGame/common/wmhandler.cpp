@@ -10,14 +10,11 @@ extern Arcball g_arcball;
 extern GLfloat g_viewScale;
 extern GLfloat g_viewScaleForY;
 extern bool g_bRotating;
-//extern bool g_bMoving;
 extern bool g_bRunning;
 extern bool g_bShooting;
 
 extern CPlayer g_player;
 extern CShield g_shield[3];
-extern glm::vec3 g_PMove;
-extern glm::mat4 g_mxPMove;
 
 // 滑鼠按鈕按下後 callback function(回呼函式) ---------------
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
@@ -89,11 +86,10 @@ void cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
        // 以滑鼠距離(0,0)的距離作為每一個模型的位移
        GLfloat dx = g_viewScale * ((float)xpos - width / 2.0f) / (width / 2.0f);
        GLfloat dy = -g_viewScaleForY * ((float)ypos - height / 2.0f) / (height / 2.0f);
-        
-       g_PMove = glm::vec3(dx, dy, 0.0f);
-       glm::mat4 mxMove = glm::translate(glm::mat4(1.0f), g_PMove);
-       g_player.setTransformMatrix(mxMove);
-       g_mxPMove = mxMove;
+       
+       glm::vec3 move = glm::vec3(dx, dy, 0.0f);
+       glm::mat4 mxMove = glm::translate(glm::mat4(1.0f), move);
+       g_player.setPos(move);
     }
         
 //#if EXAMPLE == 2

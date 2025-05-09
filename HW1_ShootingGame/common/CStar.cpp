@@ -82,7 +82,7 @@ void CStar::update(float dt) {
     glm::mat4 mxMove; // 星星的位移矩陣
     float minY = -8.5f; // 將星星移動到螢幕外面
 
-    _pos.y -= 1.0f * dt; // 位移速度（預計比子彈慢）
+    _pos.y -= 1.5f * dt; // 位移速度（預計比子彈慢）
     if (_pos.y < minY) {
         _pos.y = -minY;
         mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(_randomX, _pos.y, 0.0f));

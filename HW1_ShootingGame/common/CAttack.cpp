@@ -11,8 +11,7 @@
 
 CAttack::CAttack(float rds) : CShape()
 {
-    _direction = glm::vec3(0.0f, 1.0f, 0.0f);
-    _targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
+    _direction = glm::vec3(0.0f, 0.0f, 0.0f);
 
     _radius = rds;
 
@@ -91,7 +90,7 @@ void CAttack::draw()
 
 void CAttack::update(float dt)
 {
-    float speed = 1.0f;
+    float speed = 3.0f; // 比玩家的子彈慢一些
 
     _pos += _direction * dt * speed;
     setPos(_pos);

@@ -84,7 +84,7 @@ void CEnemy1::update(float dt)
     float endY = 2.0f; // 讓敵人移動到定點進行攻擊（不會有超出視窗的情況）
 
     if (!_isAttacking) {
-        _pos.y -= 1.2f * dt; // 位移速度（比背景快一點點）
+        _pos.y -= 1.7f * dt; // 位移速度（比背景快一點點）
         setPos(_pos);
         if (_pos.y <= endY) {
             _isAttacking = true;
@@ -101,8 +101,12 @@ void CEnemy1::update(float dt)
             attack->setShaderID(getShaderProgram());
             attack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
 
-            attack->setPos(_pos);
-            attack->setDirection(_targetMove); // 設定攻擊方向（目標）
+            glm::vec3 offset = glm::vec3(0.0f, -0.5f, 0.0f); 
+            attack->setPos(_pos + offset);
+
+            // 攻擊目標（即為玩家）
+            attack->setTargetMove(_targetMove); 
+            attack->updateDirection();
 
             _attackTimer = 0.0f; // 重設攻擊計時器
         }

@@ -10,10 +10,9 @@ public:
 	virtual void draw() override;
 	virtual void reset() override;
 	virtual void update(float dt) override; // 主要是控制彈幕的移動
-	void setDirection(glm::vec3 targetMove) {
+	void updateDirection() {
 		_direction = glm::normalize(_targetMove - _pos);
 	}
-	
 
 private:
 	const float _segment = 20.0f; // 用 20 邊形來模擬圓形
