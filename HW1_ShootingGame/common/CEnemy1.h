@@ -18,6 +18,6 @@ private:
 	glm::vec3 _triColor; // 腳架顏色
 	glm::vec3 _winColor; // 擋風玻璃顏色
 	bool _isAttacking;
-	float _attackTimer;
+	float _attackTimer; // （正計時）
 	float _attackIntervalTime;
 };

@@ -12,6 +12,9 @@
 CAttack::CAttack(float rds) : CShape()
 {
     _direction = glm::vec3(0.0f, 0.0f, 0.0f); // 預設無方向（靜止不動）
+    _waitingTimer = 0.0f;
+    _speed = 1.0f;
+    _waitingStatus = 0;
 
     _radius = rds;
 
@@ -90,10 +93,16 @@ void CAttack::draw()
 
 void CAttack::update(float dt)
 {
-    float speed = 3.0f; // 比玩家的子彈慢一些
-
-    _pos += _direction * dt * speed;
+    _pos += _direction * dt * _speed;
     setPos(_pos);
+
+    if (_waitingStatus == 1) { // 計算子彈的等待時間
+        _waitingTimer += dt;
+        if (_waitingTimer >= 5.0f) {
+            _waitingStatus = 2; // 讓彈幕開始進行攻擊
+            _waitingTimer = 0.0f;
+        }
+    }
 
     if (_pos.y < -10.0f) _isInWindow = false;
 }

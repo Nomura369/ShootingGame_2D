@@ -2,14 +2,13 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "CEnemy2.h"
+#include "CAttackManager.h"
 
 CEnemy2::CEnemy2(int colorType) : CShape()
 {
     _isAttacking = false;
-    _insTimer = 0.0f;
-    _insIntervalTime = 0.5f;
     _attackTimer = 0.0f;
-    _attackIntervalTime = 0.0f;
+    _attackIntervalTime = 0.5f;
 
     glm::vec3 bodyChoice[3] = {
         glm::vec3(0.5f, 0.3f, 0.3f), // 紅色
@@ -69,11 +68,6 @@ void CEnemy2::draw()
     updateMatrix();
     glBindVertexArray(_vao);
     glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
-
-    // 繪製並現有的所有子彈
-    for (CAttack* attack : _attackList) {
-        attack->draw();
-    }
 }
 
 void CEnemy2::update(float dt)
@@ -81,30 +75,15 @@ void CEnemy2::update(float dt)
     _pos.y -= 2.2f * dt; // 位移速度（比背景快）
     setPos(_pos);
 
-    if (_pos.y < -10.0f) _isInWindow = false;
+    if (_pos.y < -5.0f) _isInWindow = false;
 
-    // 攻擊模式：向下快速移動會留下軌跡彈幕，而這些彈幕會延遲攻擊
-    _insTimer += dt;
-    if (_insTimer >= _insIntervalTime) {
-        // 生成並設定子彈
-        CAttack* attack = new CAttack;
-        _attackList.push_back(attack);
-        attack->setupVertexAttributes();
-        attack->setShaderID(getShaderProgram());
-        attack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
-        
-        glm::vec3 offset = glm::vec3(0.0f, 1.0f, 0.0f);
-        attack->setPos(_pos + offset);
-
-        // 攻擊目標（即為玩家）
-        /*attack->setTargetMove(_targetMove);
-        attack->updateDirection();*/
-
-        _insTimer = 0.0f; // 重設攻擊計時器
-    }
-    // 更新現有的所有子彈
-    for (CAttack* attack : _attackList) {
-        attack->update(dt);
+    // 攻擊模式：向下快速移動會留下軌跡彈幕
+    // 這些彈幕會延遲攻擊（這部分由 CAttack 和 CAttackManager 共同控制）
+    _attackTimer += dt;
+    if (_attackTimer >= _attackIntervalTime) {
+        CAttackManager::addAttack2(getShaderProgram(), _pos);
+        CAttackManager::setTargetMove(1, _targetMove); // 設定該次攻擊目標
+        _attackTimer = 0.0f; // 重設子彈生成計時器
     }
 }
 
