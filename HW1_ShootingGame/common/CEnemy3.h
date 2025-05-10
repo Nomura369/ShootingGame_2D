@@ -23,4 +23,6 @@ private:
 	float _attackTimer;
 	float _attackIntervalTime;
 	list<CAttack*> _attackList;
+	float _originX;
+	bool _isOriginX;
 };

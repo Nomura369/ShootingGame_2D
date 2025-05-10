@@ -104,7 +104,7 @@ void CAttack::update(float dt)
         }
     }
 
-    if (_pos.y < -10.0f) _isInWindow = false;
+    if (_pos.y < -8.5f) _isInWindow = false;
 }
 
 void CAttack::reset() {

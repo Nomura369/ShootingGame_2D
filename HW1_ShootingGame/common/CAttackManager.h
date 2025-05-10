@@ -11,7 +11,7 @@ public:
 	static void draw();
 	static void addAttack1(GLuint shaderProg, glm::vec3 pos); // 對應 _attackList1
 	static void addAttack2(GLuint shaderProg, glm::vec3 pos); // 對應 _attackList2
-	static void addAttack3(); // 對應 _attackList3
+	static void addAttack3(GLuint shaderProg, glm::vec3 pos); // 對應 _attackList3
 	static void update(float dt);
 	static void setTargetMove(int index, glm::vec3 targetMove) {
 		_targetMove[index] = targetMove;

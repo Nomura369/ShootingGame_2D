@@ -2,12 +2,16 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "CEnemy3.h"
+#include "CAttackManager.h"
 
 CEnemy3::CEnemy3(int colorType) : CShape()
 {
     _isAttacking = false;
     _attackTimer = 0.0f;
-    _attackIntervalTime = 2.0f;
+    _attackIntervalTime = 1.0f;
+
+    _originX = 0.0f;
+    _isOriginX = true;
 
     glm::vec3 bodyChoice[3] = {
         glm::vec3(0.5f, 0.3f, 0.3f), // 紅色
@@ -74,45 +78,29 @@ void CEnemy3::draw()
     glBindVertexArray(_vao);
     glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
 
-    // 繪製並現有的所有子彈
-    /*for (CAttack* attack : _attackList) {
-        attack->draw();
-    }*/
 }
 
 void CEnemy3::update(float dt)
 {
-    glm::mat4 mxMove; // 敵人的位移矩陣
     float amplitude = 0.7f; // sin 波寬度
     float frequency = 2.0f; // 波動密集度
 
-    _pos.y -= 1.5f * dt; // 垂直下降速度（比背景快一點）
-    _pos.x = amplitude * sin(frequency * _pos.y);
-    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(_pos.x, _pos.y, 0.0f));
-    setTransformMatrix(mxMove);
+    _pos.y -= 1.2f * dt; // 垂直下降速度（比背景慢一點）
+    if (_isOriginX) {
+        _originX = _pos.x;
+        _isOriginX = false;
+    }
+    _pos.x = _originX + amplitude * sin(frequency * _pos.y);
+    setPos(_pos);
 
-    if (_pos.y < -10.0f) _isInWindow = false;
+    if (_pos.y < -5.0f) _isInWindow = false;
 
-    // 攻擊模式：一邊向下蛇行一邊發射彈幕
-    //_attackTimer += dt;
-    //if (_attackTimer >= _attackIntervalTime) {
-    //    // 生成並設定子彈
-    //    CAttack* currentAttack = new CAttack;
-    //    _attackList.push_back(currentAttack);
-    //    currentAttack->setupVertexAttributes();
-    //    currentAttack->setShaderID(getShaderProgram());
-    //    currentAttack->setPos(_pos); // 在敵人附近生成
-    //    currentAttack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
-    //    currentAttack->setTargetMove(_targetMove); // 朝向玩家攻擊
-
-    //    _attackTimer = 0.0f; // 重設攻擊計時器
-    //}
-    //// 更新現有的所有子彈
-    //for (CAttack* attack : _attackList) {
-    //    attack->update(dt);
-    //}
-
-
+    // 攻擊模式：一邊向下蛇行一邊隨機發射
+    _attackTimer += dt;
+    if (_attackTimer >= _attackIntervalTime) {
+        CAttackManager::addAttack3(getShaderProgram(), _pos);
+        _attackTimer = 0.0f; // 重設攻擊計時器
+    }
 }
 
 void CEnemy3::reset() {

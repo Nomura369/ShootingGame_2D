@@ -37,7 +37,7 @@ void CAttackManager::addAttack1(GLuint shaderProg, glm::vec3 pos) { // 對應 _att
     glm::vec3 offset = glm::vec3(0.0f, -0.5f, 0.0f);
     attack->setPos(pos + offset);
 
-    attack->setSpeed(3.0f);
+    attack->setSpeed(3.5f);
     attack->setTargetMove(_targetMove[0]); // 設定攻擊目標（即為玩家）
     attack->updateDirection(); // 更新攻擊方向
 }
@@ -55,7 +55,20 @@ void CAttackManager::addAttack2(GLuint shaderProg, glm::vec3 pos) { // 對應 _att
     attack->setPos(pos + offset);
 }
 
-void addAttack3(); // 對應 _attackList3，一次處理一個
+void CAttackManager::addAttack3(GLuint shaderProg, glm::vec3 pos) { // 對應 _attackList3，一次處理一個
+    // 生成並設定子彈
+    CAttack* attack = new CAttack;
+    _attackList3.push_back(attack);
+    attack->setupVertexAttributes();
+    attack->setShaderID(shaderProg);
+    attack->setColor(glm::vec3(0.85f, 0.75f, 0.2f));
+
+    glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
+    attack->setPos(pos + offset);
+
+    //attack->setSpeed(3.0f);
+    attack->updateDirection(); // 設定攻擊方向（隨機，使用預設的 targetMove）
+}
 
 
 void CAttackManager::update(float dt) { // 一次處理全部
@@ -67,7 +80,7 @@ void CAttackManager::update(float dt) { // 一次處理全部
     // CEnemy2
     for (CAttack* attack : _attackList2) {
         if (attack->getWaitingStatus() == 2) {
-            attack->setSpeed(3.5f);
+            attack->setSpeed(2.5f);
             attack->setTargetMove(_targetMove[1]); // 設定攻擊目標（即為玩家）
             attack->updateDirection(); // 更新攻擊方向
             attack->setWaitingStatus(0);
