@@ -22,6 +22,9 @@ public:
 	void setTargetMove(glm::vec3 targetMove) {
 		_targetMove = targetMove;
 	}
+	glm::vec3 getPos() {
+		return _pos;
+	}
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();
 

@@ -18,7 +18,7 @@ CEnemyManager::~CEnemyManager() {
 }
 
 void CEnemyManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // 一次處理一個
-	_enemyType = 2; // 從三種敵人裡選一種生成
+	_enemyType = rand() % 3; // 從三種敵人裡選一種生成
 	_enemyColor = rand() % 3; // 隨機選擇一種色系
 	if (_enemyType == 0) _enemyList.push_back(new CEnemy1(_enemyColor));
 	else if (_enemyType == 1) _enemyList.push_back(new CEnemy2(_enemyColor));
