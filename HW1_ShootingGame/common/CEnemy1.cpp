@@ -2,6 +2,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "CEnemy1.h"
+#include "CAttackManager.h"
 
 CEnemy1::CEnemy1(int colorType) : CShape()
 {
@@ -71,11 +72,6 @@ void CEnemy1::draw()
     updateMatrix();
     glBindVertexArray(_vao);
     glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
-    
-    // 繪製並現有的所有子彈
-    for (CAttack* attack : _attackList) {
-        attack->draw();
-    }
 }
 
 void CEnemy1::update(float dt)
@@ -94,28 +90,11 @@ void CEnemy1::update(float dt)
     else {
         _attackTimer += dt;
         if (_attackTimer >= _attackIntervalTime) {
-            // 生成並設定子彈
-            CAttack* attack = new CAttack;
-            _attackList.push_back(attack);
-            attack->setupVertexAttributes();
-            attack->setShaderID(getShaderProgram());
-            attack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
-
-            glm::vec3 offset = glm::vec3(0.0f, -0.5f, 0.0f); 
-            attack->setPos(_pos + offset);
-
-            // 攻擊目標（即為玩家）
-            attack->setTargetMove(_targetMove); 
-            attack->updateDirection();
-
+            CAttackManager::addAttack1(getShaderProgram(), _pos); // 生成並設定子彈
+            CAttackManager::setTargetMove(0, _targetMove); // 設定該次攻擊目標
             _attackTimer = 0.0f; // 重設攻擊計時器
         }
-        // 更新現有的所有子彈
-        for (CAttack* attack : _attackList) {
-            attack->update(dt);
-        }
     }
-
 }
 
 void CEnemy1::reset() {

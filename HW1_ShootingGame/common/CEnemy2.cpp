@@ -6,8 +6,10 @@
 CEnemy2::CEnemy2(int colorType) : CShape()
 {
     _isAttacking = false;
+    _insTimer = 0.0f;
+    _insIntervalTime = 0.5f;
     _attackTimer = 0.0f;
-    _attackIntervalTime = 2.0f;
+    _attackIntervalTime = 0.0f;
 
     glm::vec3 bodyChoice[3] = {
         glm::vec3(0.5f, 0.3f, 0.3f), // 紅色
@@ -69,39 +71,41 @@ void CEnemy2::draw()
     glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
 
     // 繪製並現有的所有子彈
-    /*for (CAttack* attack : _attackList) {
+    for (CAttack* attack : _attackList) {
         attack->draw();
-    }*/
+    }
 }
 
 void CEnemy2::update(float dt)
 {
-    glm::mat4 mxMove; // 敵人的位移矩陣
-
-    _pos.y -= 2.0f * dt; // 位移速度（比背景快）
-    mxMove = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, _pos.y, 0.0f));
-    setTransformMatrix(mxMove);
+    _pos.y -= 2.2f * dt; // 位移速度（比背景快）
+    setPos(_pos);
 
     if (_pos.y < -10.0f) _isInWindow = false;
 
-    // 攻擊模式：一邊向下快速移動一邊發射彈幕
-    //_attackTimer += dt;
-    //if (_attackTimer >= _attackIntervalTime) {
-    //    // 生成並設定子彈
-    //    CAttack* currentAttack = new CAttack;
-    //    _attackList.push_back(currentAttack);
-    //    currentAttack->setupVertexAttributes();
-    //    currentAttack->setShaderID(getShaderProgram());
-    //    currentAttack->setPos(_pos); // 在敵人附近生成
-    //    currentAttack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
-    //    currentAttack->setTargetMove(_targetMove); // 朝向玩家攻擊
+    // 攻擊模式：向下快速移動會留下軌跡彈幕，而這些彈幕會延遲攻擊
+    _insTimer += dt;
+    if (_insTimer >= _insIntervalTime) {
+        // 生成並設定子彈
+        CAttack* attack = new CAttack;
+        _attackList.push_back(attack);
+        attack->setupVertexAttributes();
+        attack->setShaderID(getShaderProgram());
+        attack->setColor(glm::vec3(0.95f, 0.8f, 0.2f));
+        
+        glm::vec3 offset = glm::vec3(0.0f, 1.0f, 0.0f);
+        attack->setPos(_pos + offset);
 
-    //    _attackTimer = 0.0f; // 重設攻擊計時器
-    //}
-    //// 更新現有的所有子彈
-    //for (CAttack* attack : _attackList) {
-    //    attack->update(dt);
-    //}
+        // 攻擊目標（即為玩家）
+        /*attack->setTargetMove(_targetMove);
+        attack->updateDirection();*/
+
+        _insTimer = 0.0f; // 重設攻擊計時器
+    }
+    // 更新現有的所有子彈
+    for (CAttack* attack : _attackList) {
+        attack->update(dt);
+    }
 }
 
 void CEnemy2::reset() {

@@ -1,6 +1,4 @@
 #pragma once
-#include <list>
-using namespace std;
 
 #include "CShape.h"
 #include "CAttack.h"
@@ -22,5 +20,4 @@ private:
 	bool _isAttacking;
 	float _attackTimer;
 	float _attackIntervalTime;
-	list<CAttack*> _attackList;
 };

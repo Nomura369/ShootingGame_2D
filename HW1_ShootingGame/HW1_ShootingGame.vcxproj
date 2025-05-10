@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="common\arcball.cpp" />
     <ClCompile Include="common\CAttack.cpp" />
+    <ClCompile Include="common\CAttackManager.cpp" />
     <ClCompile Include="common\CBullet.cpp" />
     <ClCompile Include="common\CBulletManager.cpp" />
     <ClCompile Include="common\CEnemy1.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="common\arcball.h" />
     <ClInclude Include="common\CAttack.h" />
+    <ClInclude Include="common\CAttackManager.h" />
     <ClInclude Include="common\CBulletManager.h" />
     <ClInclude Include="common\CBullet.h" />
     <ClInclude Include="common\CEnemy1.h" />

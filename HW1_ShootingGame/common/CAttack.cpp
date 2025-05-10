@@ -11,7 +11,7 @@
 
 CAttack::CAttack(float rds) : CShape()
 {
-    _direction = glm::vec3(0.0f, 0.0f, 0.0f);
+    _direction = glm::vec3(0.0f, 0.0f, 0.0f); // 預設無方向（靜止不動）
 
     _radius = rds;
 

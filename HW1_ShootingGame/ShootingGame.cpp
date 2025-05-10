@@ -29,6 +29,7 @@
 #include "common/CEnemy3.h"
 #include "common/CEnemyManager.h"
 #include "common/CAttack.h"
+#include "common/CAttackManager.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -126,6 +127,7 @@ void render( void )
     g_player.draw();
     for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
     g_EMInstance->draw();
+    CAttackManager::draw(); // 繪製所有敵人彈幕
 }
 //----------------------------------------------------------------------------
 
@@ -161,6 +163,7 @@ void update(float dt)
             enemyIntervalTime = rand() % 3 + 2.0f;
         }
         g_EMInstance->update(dt);
+        CAttackManager::update(dt); // 更新所有敵人彈幕
     }
 }
 
