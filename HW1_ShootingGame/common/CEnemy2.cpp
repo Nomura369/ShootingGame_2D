@@ -92,7 +92,7 @@ void CEnemy2::update(float dt)
 
 void CEnemy2::onCollision(CShape* other) {
     // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
-    _isActive = false;
+    _isActive = false; // 同時觸發死亡特效
 }
 
 void CEnemy2::reset() {

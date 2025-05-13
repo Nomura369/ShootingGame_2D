@@ -32,6 +32,7 @@
 #include "common/CAttackManager.h"
 #include "common/CGrid.h"
 #include "common/CTriangle.h"
+#include "common/CDeathEffectManager.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -63,7 +64,6 @@ CPlayer g_player;
 CShield g_shield[SHIELD_NUM];
 CGradient gradient;
 CStar star[STAR_NUM];
-CTriangle triangle;
 
 // Singleton Pattern
 CBulletManager* CBulletManager::instance = nullptr;
@@ -129,10 +129,10 @@ void render( void )
     g_BMInstance->draw();
     g_player.draw();
     for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
+
     g_EMInstance->draw();
     CAttackManager::draw(); // 繪製所有敵人彈幕
-    
-    //triangle.draw();
+    CDeathEffectManager::draw(); // 繪製敵人死亡特效
 }
 //----------------------------------------------------------------------------
 
@@ -171,12 +171,13 @@ void update(float dt)
         }
         g_EMInstance->update(dt);
         CAttackManager::update(dt); // 更新所有敵人彈幕
+        CDeathEffectManager::update(dt); // 更新所有的敵人死亡特效
 
-        //triangle.update(dt);
-
-        CGrid::checkGridCollisions();
+        CGrid::checkGridCollisions(); // 處理碰撞
+        // 處理已失效的物件
         g_BMInstance->handleDeath();
         g_EMInstance->handleDeath();
+        CDeathEffectManager::handleInActive();
     }
 }
 

@@ -72,8 +72,10 @@ void CBullet::reset() {
 }
 
 bool CBullet::checkCollision(CShape* other) {
-    float distance = glm::distance(this->getPos(), other->getPos());
-    return (distance < 0.5f);
+    float distanceX = this->getPos().x - other->getPos().x;
+    float distanceY = this->getPos().y - other->getPos().y;
+    float distance = distanceX * distanceX + distanceY * distanceY;
+    return (distance < 0.25f); // 0.25f 為 0.5f 的平方
     
 }
 

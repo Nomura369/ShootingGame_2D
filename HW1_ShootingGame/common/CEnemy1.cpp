@@ -4,6 +4,7 @@
 #include "CEnemy1.h"
 #include "CAttackManager.h"
 #include "CGrid.h"
+#include "CDeathEffect.h"
 
 CEnemy1::CEnemy1(int colorType) : CShape()
 {
@@ -101,7 +102,7 @@ void CEnemy1::update(float dt)
 
 void CEnemy1::onCollision(CShape* other) {
     // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
-    _isActive = false;
+    _isActive = false;  // 同時觸發死亡特效
 }
 
 void CEnemy1::reset() {
