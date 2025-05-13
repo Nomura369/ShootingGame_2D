@@ -61,7 +61,7 @@ void CAttackManager::addAttack3(GLuint shaderProg, glm::vec3 pos) { // ¹ïÀ³ _att
     _attackList3.push_back(attack);
     attack->setupVertexAttributes();
     attack->setShaderID(shaderProg);
-    attack->setColor(glm::vec3(0.85f, 0.75f, 0.2f));
+    attack->setColor(glm::vec3(0.96f, 1.0f, 0.3f));
 
     glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
     attack->setPos(pos + offset);

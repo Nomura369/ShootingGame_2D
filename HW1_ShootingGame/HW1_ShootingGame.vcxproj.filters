@@ -72,6 +72,9 @@
     <ClCompile Include="common\CAttackManager.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\CGrid.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h">
@@ -126,6 +129,9 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CAttackManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CGrid.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 
 #include "CEnemy1.h"
 #include "CAttackManager.h"
+#include "CGrid.h"
 
 CEnemy1::CEnemy1(int colorType) : CShape()
 {
@@ -95,6 +96,13 @@ void CEnemy1::update(float dt)
             _attackTimer = 0.0f; // 重設攻擊計時器
         }
     }
+
+    CGrid::insertObjects(this); // 將子彈加入格線碰撞偵測系統
+}
+
+void CEnemy1::onCollision(CShape* other) {
+    // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
+    _isAlive = false;
 }
 
 void CEnemy1::reset() {

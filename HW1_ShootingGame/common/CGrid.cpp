@@ -1,39 +1,92 @@
 #include "CGrid.h"
 
-CGrid::CGrid(float width, float height, float cellSize)
+// 初始化靜態成員變數
+int CGrid::_gridWidth;
+int CGrid::_gridHeight;
+int CGrid::_cellSize;
+int CGrid::_rows;
+int CGrid::_cols;
+vector<vector<CShape*>> CGrid::_grids;
+
+void CGrid::initialize(int width, int height, int cellSize)
 {
     _gridWidth = width;
     _gridHeight = height;
     _cellSize = cellSize;
 
-    _cols = (int)(width / cellSize);
-    _rows = (int)(height / cellSize);
+    _cols = width / cellSize;
+    _rows = height / cellSize;
     _grids.resize(_rows * _cols);
 }
 
 void CGrid::insertObjects(CShape* obj) {
-    int col = (obj->getPos().x) / _cellSize;
-    int row = (obj->getPos().y) / _cellSize;
-    if (col >= 0 && col < _cols && row >= 0 && row < _rows) {
-        _grids[row * _cols + col].push_back(obj);
-    }
+    int col = (int)(obj->getPos().x) / _cellSize;
+    int row = (int)(obj->getPos().y) / _cellSize;
+
+    if (col < 0) col = 0;
+    if (col >= _cols) col = _cols - 1;
+    if (row < 0) row = 0;
+    if (row >= _rows) row = _rows - 1;
+
+    _grids[row * _cols + col].push_back(obj);
 }
 
-vector<CShape*> CGrid::getNearbyObjects(CShape* obj) {
-    vector<CShape*> nearbyObjects;
+void CGrid::checkGridCollisions() {
+    for (int row = 0; row < _rows; ++row) {
+        for (int col = 0; col < _cols; ++col) {
+            int baseIndex = row * _cols + col;
+            auto& baseCell = _grids[baseIndex];
 
-    int col = (obj->getPos().x) / _cellSize;
-    int row = (obj->getPos().y) / _cellSize;
+            // 遍歷 baseCell 的所有物件
+            for (size_t i = 0; i < baseCell.size(); ++i) {
+                CShape* objA = baseCell[i];
+                if (!objA || !objA->getIsAlive()) continue;
 
-    // 檢查物體所在的格子及周圍格子
-    for (int i = row - 1; i <= row + 1; ++i) {
-        for (int j = col - 1; j <= col + 1; ++j) {
-            if (i >= 0 && i < _rows && j >= 0 && j < _cols) {
-                for (auto* obj : _grids[i * cols + j]) {
-                    nearbyObjects.push_back(obj);
+                // 檢查本格中後面的物件，避免重複檢查
+                for (size_t j = i + 1; j < baseCell.size(); ++j) {
+                    CShape* objB = baseCell[j];
+                    if (!objB || !objB->getIsAlive()) continue;
+
+                    if (objA->checkCollision(objB)) {
+                        objA->onCollision(objB);
+                        objB->onCollision(objA);
+                    }
+                }
+
+                // 檢查 8 個鄰格
+                for (int dr = -1; dr <= 1; ++dr) {
+                    for (int dc = -1; dc <= 1; ++dc) {
+                        // 跳過自己（已經處理過）
+                        if (dr == 0 && dc == 0) continue;
+
+                        int neighborRow = row + dr;
+                        int neighborCol = col + dc;
+
+                        if (neighborRow >= 0 && neighborRow < _rows &&
+                            neighborCol >= 0 && neighborCol < _cols) {
+
+                            int neighborIndex = neighborRow * _cols + neighborCol;
+                            auto& neighborCell = _grids[neighborIndex];
+
+                            for (CShape* objB : neighborCell) {
+                                if (!objA || !objA->getIsAlive()) continue;
+                                if (!objB || !objB->getIsAlive()) continue;
+
+                                if (objA->checkCollision(objB)) {
+                                    objA->onCollision(objB);
+                                    objB->onCollision(objA);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-    return nearbyObjects;
+}
+
+void CGrid::reset() {
+    for (auto& cell : _grids) {
+        cell.clear();
+    }
 }

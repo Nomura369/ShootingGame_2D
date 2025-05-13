@@ -11,4 +11,6 @@ public:
 	virtual void draw() override;
 	virtual void reset() override;
 	virtual void update(float dt) override; // 主要用來控制子彈的移動
+	virtual bool checkCollision(CShape* other) override;
+	virtual void onCollision(CShape* other) override;
 };

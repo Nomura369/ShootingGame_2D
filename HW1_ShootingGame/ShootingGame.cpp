@@ -30,6 +30,7 @@
 #include "common/CEnemyManager.h"
 #include "common/CAttack.h"
 #include "common/CAttackManager.h"
+#include "common/CGrid.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -135,6 +136,8 @@ void update(float dt)
 {
     if (g_bRunning)
     {
+        CGrid::reset(); // 重置上一幀格線中的物件配置
+
         // 更新玩家的位移向量和矩陣
         mxPMove = g_player.getModelMatrix();
         PMove = glm::vec3(mxPMove[3].x, mxPMove[3].y, mxPMove[3].z);
@@ -164,6 +167,8 @@ void update(float dt)
         }
         g_EMInstance->update(dt);
         CAttackManager::update(dt); // 更新所有敵人彈幕
+
+        CGrid::checkGridCollisions();
     }
 }
 
@@ -215,6 +220,7 @@ int main() {
     glfwSetCursorPosCallback(window, cursorPosCallback);            // 滑鼠在指定的視窗上面移動時
 
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
+    CGrid::initialize(SCREEN_WIDTH, SCREEN_HEIGHT, 1); // 建立碰撞格線
 
     // 呼叫 loadScene() 建立與載入 GPU 進行描繪的幾何資料 
     loadScene();

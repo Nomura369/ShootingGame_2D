@@ -1,6 +1,9 @@
 #pragma once
 #include <glm/glm.hpp>
 
+typedef unsigned int GLuint;
+typedef int GLint;
+typedef float GLfloat;
 
 class CShape
 {
@@ -19,17 +22,18 @@ public:
 	void setRotY(float angle); // 設定模型的Y軸旋轉角度
 	void setRotZ(float angle); // 設定模型的Z軸旋轉角度
 	bool getIsInWindow(); // 取得模型是否在視窗內的狀態
-	void setTargetMove(glm::vec3 targetMove) {
-		_targetMove = targetMove;
-	}
-	glm::vec3 getPos() {
-		return _pos;
-	}
+	void setTargetMove(glm::vec3 targetMove);
+	glm::vec3 getPos();
+	bool getIsAlive();
+
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();
 
 	glm::mat4 getModelMatrix();
 	GLuint getShaderProgram();
+
+	virtual bool checkCollision(CShape* other); // 碰撞偵測
+	virtual void onCollision(CShape* other); // 碰撞後的回饋
 
 protected:
 	int _vtxCount, _vtxAttrCount, _idxCount; // 頂點數、頂點屬性數、點頂索引值數
@@ -53,4 +57,5 @@ protected:
 
 	bool _isInWindow; // 記錄模型是否還在視窗範圍內
 	glm::vec3 _targetMove; // 提供有追蹤功能的模型使用
+	bool _isAlive; // 記錄模型是否因碰撞等原因消失
 };

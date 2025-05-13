@@ -1,7 +1,10 @@
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <iostream>
+
 #include "CBullet.h"
+#include "CGrid.h"
 
 CBullet::CBullet() : CShape()
 {
@@ -59,9 +62,22 @@ void CBullet::update(float dt)
         setPos(_pos);
         _isInWindow = true;
     }
+
+    CGrid::insertObjects(this); // 將子彈加入格線碰撞偵測系統
 }
 
 void CBullet::reset() {
     CShape::reset();
     // 如有需要，可加入其他特定於四邊形的重設動作
+}
+
+bool CBullet::checkCollision(CShape* other) {
+    float distance = glm::distance(this->getPos(), other->getPos());
+    return (distance < 0.5f);
+    
+}
+
+void CBullet::onCollision(CShape* other) {
+    // 玩家的子彈撞到敵人後會消失（由 CBulletManager 控制）
+    _isAlive = false;
 }

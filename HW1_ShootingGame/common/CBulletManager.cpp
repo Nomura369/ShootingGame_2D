@@ -3,7 +3,9 @@
 
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+
 #include "CBulletManager.h"
+#include "CGrid.h"
 
 CBulletManager::CBulletManager() {
 	pHead = pTail = pGet = nullptr;
@@ -40,17 +42,25 @@ void CBulletManager::draw() { // 一次處理所有子彈
 }
 
 void CBulletManager::update(float dt) { // 一次處理所有子彈
+	PNODE prev = nullptr; // 前一個節點
 	pGet = pHead;
+
 	while (pGet != nullptr) {
 		pGet->bullet->update(dt);
-		if (pGet->bullet->getIsInWindow()) {
+		if (pGet->bullet->getIsInWindow() && pGet->bullet->getIsAlive()) {
+			prev = pGet;
 			pGet = pGet->Link;
 		}
-		else { // 理論上最先生成的會最先消失
-			PNODE temp = pGet->Link;
-			pGet = nullptr;
-			delete pGet;
-			pGet = temp;
+		else { // 理論上最先生成的會最先飛出視窗 + 與敵人碰撞後會消失
+			PNODE toDelete = pGet;
+			if (prev == nullptr) {
+				pHead = pGet->Link;
+			}
+			else {
+				prev->Link = pGet->Link;
+			}
+			pGet = pGet->Link;
+			delete toDelete;
 		}
 	}
 }

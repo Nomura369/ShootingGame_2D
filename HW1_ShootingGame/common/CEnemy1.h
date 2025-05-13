@@ -12,6 +12,8 @@ public:
 	virtual void draw() override;
 	virtual void reset() override;
 	virtual void update(float dt) override;
+	// virtual bool checkCollision(CShape* other) override;
+	virtual void onCollision(CShape* other) override;
 
 private:
 	glm::vec3 _hexColor; // ¾÷¨­ÃC¦â

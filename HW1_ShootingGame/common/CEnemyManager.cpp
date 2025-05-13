@@ -3,6 +3,7 @@
 #include <glew/include/GL/glew.h>
 
 #include "CEnemyManager.h"
+#include "CGrid.h"
 
 CEnemyManager::CEnemyManager() {
 	_enemyType = 0;
@@ -32,11 +33,10 @@ void CEnemyManager::instantiate(GLuint shaderProg, glm::vec3 playerMove) { // 一
 
 	// 設定初始位置（從螢幕上方之外隨機指定 X 軸座標）
 	_randomX = -2.5f + (float)rand() / RAND_MAX * 5.0f;
-	currentEnemy->setPos(glm::vec3(_randomX, 4.5f, 0.0f));
+	currentEnemy->setPos(glm::vec3(_randomX, 4.0f, 0.0f));
 
 	// 設定敵人的攻擊目標（預設為玩家）
 	currentEnemy->setTargetMove(playerMove);
-
 }
 
 void CEnemyManager::draw() { // 一次處理全部
@@ -50,12 +50,12 @@ void CEnemyManager::update(float dt) { // 一次處理全部
 		CShape* ene = *it;
 		ene->update(dt);
 
-		if (!ene->getIsInWindow()) {
-			delete ene;
-			it = _enemyList.erase(it); // 刪掉並前進
+		if (ene->getIsInWindow() && ene->getIsAlive()) {
+			++it; // 沒刪，就正常前進
 		}
 		else {
-			++it; // 沒刪，就正常前進
+			delete ene;
+			it = _enemyList.erase(it); // 刪掉並前進
 		}
 	}
 }

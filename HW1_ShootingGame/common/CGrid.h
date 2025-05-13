@@ -4,15 +4,18 @@ using namespace std;
 
 #include "CShape.h"
 
+// 定義格線類別，使用靜態成員管理碰撞
 class CGrid {
 public:
-    CGrid(float width, float height, float cellSize);
-    void insertObjects(CShape* obj);
-
-    vector<CShape*> getNearbyObjects(CShape* obj);
+    static void initialize(int width, int height, int cellSize);
+    static void insertObjects(CShape* obj);
+    static void checkGridCollisions();
+    static void reset(); // 清空所有格子裡的物件
+    //static vector<CShape*> getNearbyObjects(CShape* obj);
 
 private:
-    float _gridWidth, _gridHeight, _cellSize;
-    int _rows, _cols;
-    vector<vector<CShape*>> _grids;  // 每個格子底下的物體列表（類似二維陣列）
+    CGrid(); // 避免創建實體
+    static int _gridWidth, _gridHeight, _cellSize;
+    static int _rows, _cols;
+    static vector<vector<CShape*>> _grids;  // 每個格子底下的物件列表（類似二維陣列）
 };

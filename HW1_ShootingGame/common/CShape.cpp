@@ -29,6 +29,7 @@ CShape::CShape()
 	
 	_isInWindow = true; // 預設模型一開始都在視窗內
 	_targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
+	_isAlive = true;
 }
 
 CShape::~CShape()
@@ -176,6 +177,12 @@ GLuint CShape::getShaderProgram() { return _shaderProg; }
 
 bool CShape::getIsInWindow() { return _isInWindow; }
 
+void CShape::setTargetMove(glm::vec3 targetMove) { _targetMove = targetMove; }
+
+glm::vec3 CShape::getPos() { return _pos; }
+
+bool CShape::getIsAlive() { return _isAlive; }
+
 void CShape::reset()
 {
 	_scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -193,4 +200,13 @@ void CShape::reset()
 	_mxRotation = glm::mat4(1.0f);
 	_mxTransform = glm::mat4(1.0f);
 	_mxFinal = glm::mat4(1.0f);
+}
+
+bool CShape::checkCollision(CShape* other) {
+	// 在子類別實作
+	return false;
+}
+
+void CShape::onCollision(CShape* other) {
+	// 在子類別實作
 }
