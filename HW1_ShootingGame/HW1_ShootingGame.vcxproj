@@ -158,6 +158,7 @@
     <ClCompile Include="common\CShape.cpp" />
     <ClCompile Include="common\CShield.cpp" />
     <ClCompile Include="common\CStar.cpp" />
+    <ClCompile Include="common\CTriangle.cpp" />
     <ClCompile Include="common\initShader.cpp" />
     <ClCompile Include="common\wmhandler.cpp" />
     <ClCompile Include="ShootingGame.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="common\CShape.h" />
     <ClInclude Include="common\CShield.h" />
     <ClInclude Include="common\CStar.h" />
+    <ClInclude Include="common\CTriangle.h" />
     <ClInclude Include="common\initshader.h" />
     <ClInclude Include="common\typedefs.h" />
     <ClInclude Include="common\wmhandler.h" />

@@ -76,7 +76,7 @@ void CEnemy2::update(float dt)
     _pos.y -= 2.2f * dt; // 位移速度（比背景快）
     setPos(_pos);
 
-    if (_pos.y < -5.0f) _isInWindow = false;
+    if (_pos.y < -4.0f) _isActive = false;
 
     // 攻擊模式：向下快速移動會留下軌跡彈幕
     // 這些彈幕會延遲攻擊（這部分由 CAttack 和 CAttackManager 共同控制）
@@ -92,7 +92,7 @@ void CEnemy2::update(float dt)
 
 void CEnemy2::onCollision(CShape* other) {
     // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
-    _isAlive = false;
+    _isActive = false;
 }
 
 void CEnemy2::reset() {

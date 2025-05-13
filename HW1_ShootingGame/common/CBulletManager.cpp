@@ -42,16 +42,23 @@ void CBulletManager::draw() { // 一次處理所有子彈
 }
 
 void CBulletManager::update(float dt) { // 一次處理所有子彈
-	PNODE prev = nullptr; // 前一個節點
 	pGet = pHead;
 
 	while (pGet != nullptr) {
-		pGet->bullet->update(dt);
-		if (pGet->bullet->getIsInWindow() && pGet->bullet->getIsAlive()) {
-			prev = pGet;
+		if (pGet->bullet != nullptr) {
+			pGet->bullet->update(dt);
 			pGet = pGet->Link;
 		}
-		else { // 理論上最先生成的會最先飛出視窗 + 與敵人碰撞後會消失
+	}
+}
+
+void CBulletManager::handleDeath() { // 一次處理全部
+	PNODE prev = nullptr;
+	pGet = pHead;
+
+	// 理論上最先生成的會最先飛出視窗 + 與敵人碰撞後會消失
+	while (pGet != nullptr) {
+		if (pGet->bullet != nullptr && !pGet->bullet->getIsActive()) {
 			PNODE toDelete = pGet;
 			if (prev == nullptr) {
 				pHead = pGet->Link;
@@ -61,6 +68,11 @@ void CBulletManager::update(float dt) { // 一次處理所有子彈
 			}
 			pGet = pGet->Link;
 			delete toDelete;
+			toDelete = nullptr;
+		}
+		else {
+			prev = pGet;
+			pGet = pGet->Link;
 		}
 	}
 }

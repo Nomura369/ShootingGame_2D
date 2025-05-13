@@ -27,9 +27,8 @@ CShape::CShape()
 	_modelMxLoc = 0;
 	_points = nullptr; _idx = nullptr;
 	
-	_isInWindow = true; // 預設模型一開始都在視窗內
+	_isActive = true;
 	_targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
-	_isAlive = true;
 }
 
 CShape::~CShape()
@@ -175,13 +174,11 @@ glm::mat4 CShape::getModelMatrix() { return _mxFinal; }
 
 GLuint CShape::getShaderProgram() { return _shaderProg; }
 
-bool CShape::getIsInWindow() { return _isInWindow; }
+bool CShape::getIsActive() { return _isActive; }
 
 void CShape::setTargetMove(glm::vec3 targetMove) { _targetMove = targetMove; }
 
 glm::vec3 CShape::getPos() { return _pos; }
-
-bool CShape::getIsAlive() { return _isAlive; }
 
 void CShape::reset()
 {

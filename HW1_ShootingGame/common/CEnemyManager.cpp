@@ -46,15 +46,21 @@ void CEnemyManager::draw() { // 一次處理全部
 }
 
 void CEnemyManager::update(float dt) { // 一次處理全部
+	for (auto ene : _enemyList) {
+		ene->update(dt);
+	}
+}
+
+void CEnemyManager::handleDeath() { // 一次處理全部
 	for (auto it = _enemyList.begin(); it != _enemyList.end(); ) {
 		CShape* ene = *it;
-		ene->update(dt);
 
-		if (ene->getIsInWindow() && ene->getIsAlive()) {
+		if (ene->getIsActive()) {
 			++it; // 沒刪，就正常前進
 		}
 		else {
 			delete ene;
+			ene = nullptr;
 			it = _enemyList.erase(it); // 刪掉並前進
 		}
 	}

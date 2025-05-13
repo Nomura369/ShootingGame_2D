@@ -33,6 +33,7 @@ public:
 	void instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成並設定敵人
 	void draw();
 	void update(float dt);
+	void handleDeath(); // 一次處理 _isActive == false 的子彈
 	~CEnemyManager();
 
 };

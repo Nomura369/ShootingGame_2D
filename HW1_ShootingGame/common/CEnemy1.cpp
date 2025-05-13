@@ -77,7 +77,6 @@ void CEnemy1::draw()
 
 void CEnemy1::update(float dt)
 {
-    float startY = 4.5f; // 該敵人生成時的 Y 軸位置
     float endY = 2.0f; // 讓敵人移動到定點進行攻擊（不會有超出視窗的情況）
 
     if (!_isAttacking) {
@@ -102,7 +101,7 @@ void CEnemy1::update(float dt)
 
 void CEnemy1::onCollision(CShape* other) {
     // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
-    _isAlive = false;
+    _isActive = false;
 }
 
 void CEnemy1::reset() {

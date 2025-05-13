@@ -40,14 +40,14 @@ void CGrid::checkGridCollisions() {
             // 遍歷 baseCell 的所有物件
             for (size_t i = 0; i < baseCell.size(); ++i) {
                 CShape* objA = baseCell[i];
-                if (!objA || !objA->getIsAlive()) continue;
 
                 // 檢查本格中後面的物件，避免重複檢查
                 for (size_t j = i + 1; j < baseCell.size(); ++j) {
                     CShape* objB = baseCell[j];
-                    if (!objB || !objB->getIsAlive()) continue;
-
-                    if (objA->checkCollision(objB)) {
+                    
+                    bool isValid = !objA || !objA->getIsActive() || !objB || !objB->getIsActive();
+                    if (isValid) continue;
+                    else if (objA->checkCollision(objB)) {
                         objA->onCollision(objB);
                         objB->onCollision(objA);
                     }
@@ -69,10 +69,9 @@ void CGrid::checkGridCollisions() {
                             auto& neighborCell = _grids[neighborIndex];
 
                             for (CShape* objB : neighborCell) {
-                                if (!objA || !objA->getIsAlive()) continue;
-                                if (!objB || !objB->getIsAlive()) continue;
-
-                                if (objA->checkCollision(objB)) {
+                                bool isValid = !objA || !objA->getIsActive() || !objB || !objB->getIsActive();
+                                if (isValid) continue;
+                                else if (objA->checkCollision(objB)) {
                                     objA->onCollision(objB);
                                     objB->onCollision(objA);
                                 }

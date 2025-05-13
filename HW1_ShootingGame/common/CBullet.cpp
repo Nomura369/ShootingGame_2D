@@ -57,10 +57,10 @@ void CBullet::update(float dt)
     float maxY = 10.0f; // 將子彈射到螢幕外面
 
     _pos.y += 5.0f * dt; // 位移速度
-    if (_pos.y > maxY) _isInWindow = false;
+    if (_pos.y > maxY) _isActive = false;
     else {
         setPos(_pos);
-        _isInWindow = true;
+        _isActive = true;
     }
 
     CGrid::insertObjects(this); // 將子彈加入格線碰撞偵測系統
@@ -79,5 +79,5 @@ bool CBullet::checkCollision(CShape* other) {
 
 void CBullet::onCollision(CShape* other) {
     // 玩家的子彈撞到敵人後會消失（由 CBulletManager 控制）
-    _isAlive = false;
+    _isActive = false;
 }

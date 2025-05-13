@@ -94,7 +94,7 @@ void CEnemy3::update(float dt)
     _pos.x = _originX + amplitude * sin(frequency * _pos.y);
     setPos(_pos);
 
-    if (_pos.y < -5.0f) _isInWindow = false;
+    if (_pos.y < -4.0f) _isActive = false;
 
     // 攻擊模式：一邊向下蛇行一邊隨機發射
     _attackTimer += dt;
@@ -108,7 +108,7 @@ void CEnemy3::update(float dt)
 
 void CEnemy3::onCollision(CShape* other) {
     // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
-    _isAlive = false;
+    _isActive = false;
 }
 
 void CEnemy3::reset() {

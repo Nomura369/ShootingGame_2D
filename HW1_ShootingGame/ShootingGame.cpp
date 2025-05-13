@@ -31,6 +31,7 @@
 #include "common/CAttack.h"
 #include "common/CAttackManager.h"
 #include "common/CGrid.h"
+#include "common/CTriangle.h"
 
 // 視窗大小
 #define SCREEN_WIDTH  600
@@ -62,6 +63,7 @@ CPlayer g_player;
 CShield g_shield[SHIELD_NUM];
 CGradient gradient;
 CStar star[STAR_NUM];
+CTriangle triangle;
 
 // Singleton Pattern
 CBulletManager* CBulletManager::instance = nullptr;
@@ -129,6 +131,8 @@ void render( void )
     for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
     g_EMInstance->draw();
     CAttackManager::draw(); // 繪製所有敵人彈幕
+    
+    //triangle.draw();
 }
 //----------------------------------------------------------------------------
 
@@ -168,7 +172,11 @@ void update(float dt)
         g_EMInstance->update(dt);
         CAttackManager::update(dt); // 更新所有敵人彈幕
 
+        //triangle.update(dt);
+
         CGrid::checkGridCollisions();
+        g_BMInstance->handleDeath();
+        g_EMInstance->handleDeath();
     }
 }
 

@@ -31,6 +31,7 @@ public:
 	void instantiate(GLuint shaderProg, glm::vec3 playerMove); // 生成並設定子彈
 	void draw(); // 一次畫出鏈結串列中現有的全部子彈
 	void update(float dt); // 一次更新全部子彈的移動狀態
+	void handleDeath(); // 一次處理 _isActive == false 的子彈
 	~CBulletManager(); // 釋放鏈結串列
 	
 };

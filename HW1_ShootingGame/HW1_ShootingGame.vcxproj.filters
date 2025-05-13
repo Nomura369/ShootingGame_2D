@@ -75,6 +75,9 @@
     <ClCompile Include="common\CGrid.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\CTriangle.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\arcball.h">
@@ -132,6 +135,9 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\CGrid.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\CTriangle.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
