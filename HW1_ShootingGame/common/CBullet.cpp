@@ -8,6 +8,8 @@
 
 CBullet::CBullet() : CShape()
 {
+    _tag = "bullet";
+
     _vtxCount = 18;           // 頂點數量
     _vtxAttrCount = 11;      // 每個頂點的屬性數量：位置(3), 顏色(3), 法向量(3), 貼圖座標(2)
     _idxCount = 36;          // 繪製需要的索引數
@@ -72,14 +74,14 @@ void CBullet::reset() {
 }
 
 bool CBullet::checkCollision(CShape* other) {
+    // 子彈與敵人的碰撞偵測，主要交由 bullet 側執行
     float distanceX = this->getPos().x - other->getPos().x;
     float distanceY = this->getPos().y - other->getPos().y;
     float distance = distanceX * distanceX + distanceY * distanceY;
     return (distance < 0.25f); // 0.25f 為 0.5f 的平方
-    
 }
 
 void CBullet::onCollision(CShape* other) {
     // 玩家的子彈撞到敵人後會消失（由 CBulletManager 控制）
-    _isActive = false;
+    if (other->getTag() == "enemy") _isActive = false;
 }

@@ -29,6 +29,8 @@ CShape::CShape()
 	
 	_isActive = true;
 	_targetMove = glm::vec3(0.0f, 0.0f, 0.0f);
+	_tag = "";
+	_life = 1;
 }
 
 CShape::~CShape()
@@ -179,6 +181,8 @@ bool CShape::getIsActive() { return _isActive; }
 void CShape::setTargetMove(glm::vec3 targetMove) { _targetMove = targetMove; }
 
 glm::vec3 CShape::getPos() { return _pos; }
+
+string CShape::getTag() { return _tag; }
 
 void CShape::reset()
 {

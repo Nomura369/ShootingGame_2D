@@ -4,7 +4,6 @@
 
 #include "CEnemyManager.h"
 #include "CGrid.h"
-#include "CDeathEffectManager.h"
 
 CEnemyManager::CEnemyManager() {
 	_enemyType = 0;
@@ -60,7 +59,6 @@ void CEnemyManager::handleDeath() { // 一次處理全部
 			++it; // 沒刪，就正常前進
 		}
 		else {
-			CDeathEffectManager::createEffect(ene->getShaderProgram(), ene->getPos()); // 播放死亡特效
 			delete ene;
 			ene = nullptr;
 			it = _enemyList.erase(it); // 刪掉並前進

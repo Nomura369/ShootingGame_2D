@@ -4,6 +4,7 @@
 #include "CEnemy3.h"
 #include "CAttackManager.h"
 #include "CGrid.h"
+#include "CDeathEffectManager.h"
 
 CEnemy3::CEnemy3(int colorType) : CShape()
 {
@@ -13,6 +14,8 @@ CEnemy3::CEnemy3(int colorType) : CShape()
 
     _originX = 0.0f;
     _isOriginX = true;
+
+    _tag = "enemy";
 
     glm::vec3 bodyChoice[3] = {
         glm::vec3(0.5f, 0.3f, 0.3f), // 紅色
@@ -108,7 +111,13 @@ void CEnemy3::update(float dt)
 
 void CEnemy3::onCollision(CShape* other) {
     // 敵人撞到玩家的子彈後後會消失（由 CEnemyManager 控制）
-    _isActive = false; // 同時觸發死亡特效
+    if (other->getTag() == "bullet") {
+        _life--;
+        if (_life == 0) {
+            CDeathEffectManager::createEffect(_shaderProg, _pos); // 播放死亡特效
+            _isActive = false;
+        }
+    }
 }
 
 void CEnemy3::reset() {

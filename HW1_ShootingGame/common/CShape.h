@@ -1,6 +1,9 @@
 #pragma once
 #include <glm/glm.hpp>
 
+#include <string>
+using namespace std;
+
 typedef unsigned int GLuint;
 typedef int GLint;
 typedef float GLfloat;
@@ -24,6 +27,7 @@ public:
 	bool getIsActive();
 	void setTargetMove(glm::vec3 targetMove);
 	glm::vec3 getPos();
+	string getTag();
 
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();
@@ -56,4 +60,6 @@ protected:
 
 	bool _isActive; // 判斷是否在視窗內、是否碰撞消失等狀態
 	glm::vec3 _targetMove; // 提供有追蹤功能的模型使用
+	string _tag;
+	int _life; // 生命值
 };
