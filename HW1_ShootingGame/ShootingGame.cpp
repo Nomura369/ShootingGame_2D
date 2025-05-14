@@ -49,7 +49,8 @@ bool g_bRunning = false; // 判斷遊戲為開始 or 暫停（與原本的 g_bMo
 bool g_bShooting = false; // 玩家是否按下按鍵發射子彈
 float sAngle = 0.0f; // 計算護盾的旋轉角度（每幀更新）
 float enemyTimer = 0.0f; // 計算敵人生成的時間
-float enemyIntervalTime = rand() % 3 + 2.0f; // 每個敵人的生成時間間隔（1.0f-3.0f 之間的整數秒）
+float enemyIntervalTime = rand() % 3 + 2.0f; // 每個敵人的生成時間間隔（2.0f-4.0f 之間的整數秒）
+int score; // 計算玩家得分
 
 GLuint g_shaderProg; // Shader Program ID
 GLuint flashShaderProg; // 專門用於閃爍效果的 Shader Program ID
@@ -170,7 +171,9 @@ void update(float dt)
             g_EMInstance->instantiate(g_shaderProg, PMove);
             
             enemyTimer = 0.0f;
-            enemyIntervalTime = rand() % 3 + 2.0f;
+            if(score < 150) enemyIntervalTime = rand() % 3 + 2.0f; // 2.0f-4.0f 之間的整數秒
+            else if (score < 300) enemyIntervalTime = rand() % 3 + 1.0f; // 1.0f-3.0f 之間的整數秒
+            else enemyIntervalTime = rand() % 3 + 0.5f; // 0.5f-2.5f 之間的整數秒
         }
         g_EMInstance->update(dt);
         CAttackManager::update(dt); // 更新所有敵人彈幕
@@ -183,9 +186,11 @@ void update(float dt)
         CDeathEffectManager::handleInActive();
         CAttackManager::handleDeath();
 
+        score = g_EMInstance->getScore();
         if (!g_player.getIsActive()) {
             g_bRunning = false;
             std::cout << "遊戲結束，你死翹翹了" << endl;
+            std::cout << "得分：" << score << "（擊殺數：" << score / 10 << "）" << endl;
         }
     }
 }
