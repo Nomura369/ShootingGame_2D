@@ -28,6 +28,7 @@ public:
 	void setTargetMove(glm::vec3 targetMove);
 	glm::vec3 getPos();
 	string getTag();
+	int getLife();
 
 	void setTransformMatrix(glm::mat4 mxMatrix);
 	void updateMatrix();

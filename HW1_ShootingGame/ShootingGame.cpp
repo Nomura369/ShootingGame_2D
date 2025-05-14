@@ -129,7 +129,7 @@ void render( void )
     for (int i = 0; i < STAR_NUM; i++) star[i].draw();
     g_BMInstance->draw();
     g_player.draw();
-    for(int i = 0; i < SHIELD_NUM; i++) g_shield[i].draw();
+    for(int i = 0; i < g_player.getLife(); i++) g_shield[i].draw();
 
     g_EMInstance->draw();
     CAttackManager::draw(); // 繪製所有敵人彈幕

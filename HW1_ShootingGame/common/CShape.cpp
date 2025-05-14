@@ -184,6 +184,8 @@ glm::vec3 CShape::getPos() { return _pos; }
 
 string CShape::getTag() { return _tag; }
 
+int CShape::getLife() { return _life; }
+
 void CShape::reset()
 {
 	_scale = glm::vec3(1.0f, 1.0f, 1.0f);
