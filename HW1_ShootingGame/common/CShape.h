@@ -35,7 +35,7 @@ public:
 	glm::mat4 getModelMatrix();
 	GLuint getShaderProgram();
 
-	virtual bool checkCollision(CShape* other); // ¸I¼²°»´ú
+	bool checkCollision(CShape* other); // ¸I¼²°»´ú
 	virtual void onCollision(CShape* other); // ¸I¼²«áªº¦^õX
 
 protected:

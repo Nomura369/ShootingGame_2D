@@ -73,13 +73,10 @@ void CBullet::reset() {
     // 如有需要，可加入其他特定於四邊形的重設動作
 }
 
-bool CBullet::checkCollision(CShape* other) {
-    // 子彈與敵人的碰撞偵測，主要交由 bullet 側執行
-    float distanceX = this->getPos().x - other->getPos().x;
-    float distanceY = this->getPos().y - other->getPos().y;
-    float distance = distanceX * distanceX + distanceY * distanceY;
-    return (distance < 0.25f); // 0.25f 為 0.5f 的平方
-}
+//bool CBullet::checkCollision(CShape* other) {
+//    // 子彈與敵人的碰撞偵測，主要交由 bullet 側執行
+//    
+//}
 
 void CBullet::onCollision(CShape* other) {
     // 玩家的子彈撞到敵人後會消失（由 CBulletManager 控制）

@@ -204,8 +204,10 @@ void CShape::reset()
 }
 
 bool CShape::checkCollision(CShape* other) {
-	// 在子類別實作
-	return false;
+	float distanceX = this->getPos().x - other->getPos().x;
+	float distanceY = this->getPos().y - other->getPos().y;
+	float distance = distanceX * distanceX + distanceY * distanceY;
+	return (distance < 0.25f); // 0.25f 為 0.5f 的平方
 }
 
 void CShape::onCollision(CShape* other) {

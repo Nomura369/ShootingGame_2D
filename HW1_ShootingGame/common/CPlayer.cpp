@@ -1,16 +1,25 @@
 #include <glew/include/GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <iostream>
+
 #include "CPlayer.h"
+#include "CShaderPool.h"
+#include "CGrid.h"
 
 CPlayer::CPlayer() : CShape()
 { 
+    _tag = "player";
+    _life = 3;
+    _isHit = _isFlashing =  false;
+    _timer = 0.0f;
+
     _vtxCount = 18;           // 頂點數量
     _vtxAttrCount = 11;      // 每個頂點的屬性數量：位置(3), 顏色(3), 法向量(3), 貼圖座標(2)
     _idxCount = 36;          // 繪製需要的索引數
 
     _points = new GLfloat[_vtxCount * _vtxAttrCount]{
-        // 位置         // 顏色              // 法向量          // 貼圖座標
+        // 位置               // 顏色              // 法向量          // 貼圖座標
         0.0f, -0.5f, 0.0f,    0.5f, 0.5f, 0.5f,    1.0f, 0.0f, 0.0f,    0.5f, 1.0f, // 0
         -0.3f, -0.3f, 0.0f,   0.5f, 0.5f, 0.5f,    1.0f, 0.0f, 0.0f,    0.0f, 0.5f,  // 1
         0.3f, -0.3f, 0.0f,    0.5f, 0.5f, 0.5f,    1.0f, 0.0f, 0.0f,    1.0f, 0.5f,  // 2
@@ -59,16 +68,59 @@ CPlayer::~CPlayer()
 
 void CPlayer::draw()
 {
-	glUseProgram(_shaderProg);
-	updateMatrix();
-	glBindVertexArray(_vao);
-	glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
+    if (!_isFlashing) {
+        glUseProgram(_shaderProg);
+        updateMatrix();
+        glBindVertexArray(_vao);
+        glDrawElements(GL_TRIANGLES, _idxCount, GL_UNSIGNED_INT, 0);
+    }
 }
 
 void CPlayer::update(float dt)
 {
+    glUseProgram(_shaderProg);
+    GLint loc = glGetUniformLocation(_shaderProg, "isFlashing");
+    if (loc != -1) {
+        glUniform1i(loc, _isFlashing ? 1 : 0);
+    }
 
+    CGrid::insertObjects(this); // 加入格線碰撞偵測系統
 
+    // 閃爍效果（無敵時間）
+    if (_isHit) {
+        _timer += dt;
+        _isFlashing = true;
+        if (_timer < 0.5f) {
+            _isFlashing = false;
+        }
+        else if(_timer < 1.0f){
+            _isFlashing = true;
+        }
+        else if (_timer < 1.5f) {
+            _isFlashing = false;
+        }
+        else if (_timer < 2.0f) {
+            _isFlashing = true;
+        }
+        else {
+            _isHit = _isFlashing = false;
+            _timer = 0.0f; // 重設計時器
+        }
+    }
+}
+
+void CPlayer::onCollision(CShape* other) {
+    // 玩家撞到敵人或其攻擊會損失一條生命
+    if (other->getTag() == "enemy" || other->getTag() == "attack") {
+        if (!_isHit) { // 觸發閃爍效果（無敵時間）
+            _life--;
+            std::cout << "玩家生命值：" << _life << std::endl;
+            _isHit = true;
+        }
+        if (_life == 0) {
+            _isActive = false;
+        }
+    }
 }
 
 void CPlayer::reset() {

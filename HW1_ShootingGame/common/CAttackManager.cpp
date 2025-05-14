@@ -93,3 +93,42 @@ void CAttackManager::update(float dt) { // 一次處理全部
         attack->update(dt);
     }
 }
+
+void CAttackManager::handleDeath() { // 一次處理全部
+    for (auto it = _attackList1.begin(); it != _attackList1.end(); ) {
+        CShape* att = *it;
+
+        if (att->getIsActive()) {
+            ++it; // 沒刪，就正常前進
+        }
+        else {
+            delete att;
+            att = nullptr;
+            it = _attackList1.erase(it); // 刪掉並前進
+        }
+    }
+    for (auto it = _attackList2.begin(); it != _attackList2.end(); ) {
+        CShape* att = *it;
+
+        if (att->getIsActive()) {
+            ++it; // 沒刪，就正常前進
+        }
+        else {
+            delete att;
+            att = nullptr;
+            it = _attackList2.erase(it); // 刪掉並前進
+        }
+    }
+    for (auto it = _attackList3.begin(); it != _attackList3.end(); ) {
+        CShape* att = *it;
+
+        if (att->getIsActive()) {
+            ++it; // 沒刪，就正常前進
+        }
+        else {
+            delete att;
+            att = nullptr;
+            it = _attackList3.erase(it); // 刪掉並前進
+        }
+    }
+}

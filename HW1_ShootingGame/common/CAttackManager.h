@@ -16,6 +16,7 @@ public:
 	static void setTargetMove(int index, glm::vec3 targetMove) {
 		_targetMove[index] = targetMove;
 	}
+	static void handleDeath(); // 一次處理 _isActive == false 的子彈
 
 private:
 	CAttackManager(); // 避免創建實體

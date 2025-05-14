@@ -6,11 +6,14 @@
 #include <iostream>
 
 #include "CAttack.h"
+#include "CGrid.h"
 
 #define M_PI 3.1415926f
 
 CAttack::CAttack(float rds) : CShape()
 {
+    _tag = "attack";
+
     _direction = glm::vec3(0.0f, 0.0f, 0.0f); // 預設無方向（靜止不動）
     _waitingTimer = 0.0f;
     _speed = 1.0f;
@@ -96,6 +99,8 @@ void CAttack::update(float dt)
     _pos += _direction * dt * _speed;
     setPos(_pos);
 
+    CGrid::insertObjects(this); // 加入格線碰撞偵測系統
+
     if (_waitingStatus == 1) { // 計算子彈的等待時間
         _waitingTimer += dt;
         if (_waitingTimer >= 5.0f) {
@@ -105,6 +110,11 @@ void CAttack::update(float dt)
     }
 
     if (_pos.y < -8.5f) _isActive = false;
+}
+
+void CAttack::onCollision(CShape* other) {
+    // 敵人的子彈撞到玩家後會消失（由 CAttackManager 控制）
+    if (other->getTag() == "player") _isActive = false;
 }
 
 void CAttack::reset() {

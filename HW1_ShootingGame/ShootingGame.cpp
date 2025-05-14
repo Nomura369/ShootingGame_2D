@@ -52,6 +52,7 @@ float enemyTimer = 0.0f; // 計算敵人生成的時間
 float enemyIntervalTime = rand() % 3 + 2.0f; // 每個敵人的生成時間間隔（1.0f-3.0f 之間的整數秒）
 
 GLuint g_shaderProg; // Shader Program ID
+GLuint flashShaderProg; // 專門用於閃爍效果的 Shader Program ID
 
 // 投影矩陣
 glm::mat4 g_viewMx = glm::mat4(1.0f);
@@ -142,6 +143,8 @@ void update(float dt)
     {
         CGrid::reset(); // 重置上一幀格線中的物件配置
 
+        g_player.update(dt);
+
         // 更新玩家的位移向量和矩陣
         mxPMove = g_player.getModelMatrix();
         PMove = glm::vec3(mxPMove[3].x, mxPMove[3].y, mxPMove[3].z);
@@ -178,6 +181,12 @@ void update(float dt)
         g_BMInstance->handleDeath();
         g_EMInstance->handleDeath();
         CDeathEffectManager::handleInActive();
+        CAttackManager::handleDeath();
+
+        if (!g_player.getIsActive()) {
+            g_bRunning = false;
+            std::cout << "遊戲結束，你死翹翹了" << endl;
+        }
     }
 }
 
@@ -228,8 +237,12 @@ int main() {
     glfwSetMouseButtonCallback(window, mouseButtonCallback);        // 有滑鼠的按鍵被按下時
     glfwSetCursorPosCallback(window, cursorPosCallback);            // 滑鼠在指定的視窗上面移動時
 
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // 隱藏鼠標
     CGrid::initialize(SCREEN_WIDTH, SCREEN_HEIGHT, 1); // 建立碰撞格線
+    std::cout << "請按空白鍵開始遊戲" << endl;
+    std::cout << "用滑鼠操控戰鬥機移動，按左鍵發射子彈" << endl;
+    std::cout << "總共有三條命，打敗一個敵人獲得十分" << endl;
+    std::cout << "打完 boss 或玩家死亡即遊戲結束，加油" << endl << endl;
 
     // 呼叫 loadScene() 建立與載入 GPU 進行描繪的幾何資料 
     loadScene();

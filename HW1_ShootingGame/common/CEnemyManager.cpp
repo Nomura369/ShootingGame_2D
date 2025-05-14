@@ -9,6 +9,7 @@ CEnemyManager::CEnemyManager() {
 	_enemyType = 0;
 	_enemyColor = 0;
 	_randomX = 0.0f;
+	_score = 0;
 }
 
 CEnemyManager::~CEnemyManager() {
@@ -59,6 +60,7 @@ void CEnemyManager::handleDeath() { // 一次處理全部
 			++it; // 沒刪，就正常前進
 		}
 		else {
+			_score += 10;
 			delete ene;
 			ene = nullptr;
 			it = _enemyList.erase(it); // 刪掉並前進

@@ -10,4 +10,9 @@ public:
 	virtual void draw() override;
 	virtual void reset() override;
 	virtual void update(float dt) override;
+	virtual void onCollision(CShape* other) override;
+
+private:
+	bool _isHit, _isFlashing; // 是否被敵人或其子彈打中
+	float _timer;
 };

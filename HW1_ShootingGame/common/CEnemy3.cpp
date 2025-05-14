@@ -118,6 +118,9 @@ void CEnemy3::onCollision(CShape* other) {
             _isActive = false;
         }
     }
+    else if (other->getTag() == "player") {
+        // 敵人撞到玩家不會怎樣
+    }
 }
 
 void CEnemy3::reset() {

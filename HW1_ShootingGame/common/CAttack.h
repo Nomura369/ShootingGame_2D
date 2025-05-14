@@ -22,6 +22,7 @@ public:
 	int getWaitingStatus() {
 		return _waitingStatus;
 	}
+	virtual void onCollision(CShape* other) override;
 
 private:
 	const float _segment = 20.0f; // 用 20 邊形來模擬圓形

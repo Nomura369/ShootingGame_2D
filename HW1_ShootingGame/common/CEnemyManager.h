@@ -17,6 +17,7 @@ private:
 	int _enemyType;
 	int _enemyColor;
 	float _randomX;
+	int _score; // 打敗一個敵人得十分
 	
 public:
 	// 確保外部不得複製此類別的實例
@@ -35,5 +36,5 @@ public:
 	void update(float dt);
 	void handleDeath(); // 一次處理 _isActive == false 的子彈
 	~CEnemyManager();
-
+	int getScore() { return _score; }
 };
